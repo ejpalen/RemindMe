@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">RemindMe</string>
+
+    <string name="onboarding_screen_header">
+        YOUR PERSONAL REMINDER APP
+    </string>
+
+    <string name="onboarding_screen_description">
+        Stay organized effortlessly. Set reminders for meetings, birthdays, and daily tasks with RemindMe. Your go-to app for never missing a beat
+    </string>
+
 </resources>
