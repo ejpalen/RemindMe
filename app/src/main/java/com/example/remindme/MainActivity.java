@@ -14,8 +14,11 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_onboarding_user_input);
         setContentView(R.layout.activity_main);
 
+//        Intent intent = new Intent(MainActivity.this,
+//                OnboardingScreen.class);
+
         Intent intent = new Intent(MainActivity.this,
-                OnboardingScreen.class);
+                Add_Reminder.class);
 
         startActivity(intent);
     }

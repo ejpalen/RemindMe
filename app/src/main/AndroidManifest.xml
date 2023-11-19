@@ -13,6 +13,9 @@
         android:theme="@style/Theme.RemindMe"
         tools:targetApi="34">
         <activity
+            android:name=".Add_Reminder"
+            android:exported="false" />
+        <activity
             android:name=".Onboarding_UserInput"
             android:exported="true" />
         <activity
@@ -23,6 +26,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
