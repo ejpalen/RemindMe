@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Homepage"
+    tools:context=".Home"
     tools:ignore="MissingConstraints">
 
     <FrameLayout
@@ -86,31 +86,31 @@
             android:text="Reminder Title"
             android:textSize="21sp" />
 
-            <LinearLayout
-                android:layout_width="350dp"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                tools:layout_editor_absoluteX="15dp"
-                tools:layout_editor_absoluteY="186dp">
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            tools:layout_editor_absoluteX="15dp"
+            tools:layout_editor_absoluteY="186dp">
 
-                <ImageView
-                    android:id="@+id/alarm"
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="Alarm"
-                    android:src="@drawable/alarm" />
+            <ImageView
+                android:id="@+id/alarm"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="Alarm"
+                android:src="@drawable/alarm" />
 
-                <TextView
-                    android:id="@+id/dueDateText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:fontFamily="@font/syne"
-                    android:text="10:00AM"
-                    android:textSize="13sp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/dueDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="@font/syne"
+                android:text="10:00AM"
+                android:textSize="13sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/descriptionText"

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,50 +20,70 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     EditText userName, reminderTitle, reminderDescription;
-    Button saveName, saveReminder, statusReminder, editReminder, deleteReminder, reminderTime;
-    int hour, minute;
+    Button saveReminder, statusReminder, editReminder, deleteReminder, reminderTime;
+    //int hour, minute;
     SQLiteDatabase db;
     Cursor cursor;
     AlertDialog.Builder builder;
     StringBuffer buffer;
+    //String packageName;
+    Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_onboarding_screen);
-//        setContentView(R.layout.activity_onboarding_user_input);
+//      setContentView(R.layout.activity_onboarding_screen);
+//      setContentView(R.layout.activity_onboarding_user_input);
         setContentView(R.layout.activity_main);
+//      Intent intent = new Intent(MainActivity.this,OnboardingScreen.class);
 
-//        Intent intent = new Intent(MainActivity.this,
-//                OnboardingScreen.class);
-
-        Intent intent = new Intent(MainActivity.this,
-                Add_Reminder.class);
-
-        startActivity(intent);
         createUserDB();
-        saveUserReminder();
-        saveUserName();
+        /*saveUserReminder();
         //saveUserTime();
         deleteUserReminder();
         editUserReminder();
-        statusUserReminder();
+        statusUserReminder();*/
+
+        //packageName = getApplicationContext().getPackageName().concat(".");
+        //broadcastIntent();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.intent.action.AIRPLANE_MODE");
+        intentFilter.addAction("android.intent.action.BATTERY_CHANGED");
+        //MyReceiver myReceiver = new MyReceiver();
+        //registerReceiver(myReceiver,intentFilter );
+
+        Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
+
+        startActivity(intent);
+
+
     }
+
+    /*public void broadcastIntent(){
+        intent = new Intent();
+        intent.setAction(packageName + "MY_CUSTOM_ACTION");
+        intent.setClass(this, MyCustomReceiver.class);
+        sendBroadcast(intent);
+    }
+    }*/
 
     public void createUserDB(){
         userName=findViewById(R.id.editTextText);
         reminderTitle=findViewById(R.id.reminderinput);
         reminderDescription=findViewById(R.id.descriptioninput);
         //reminderTime=(R.id.editTextTime);
+        saveReminder=findViewById(R.id.submitbtn);
 
         builder = new AlertDialog.Builder(this);
 
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
         db.execSQL("DROP TABLE IF EXISTS nameTable;");
         db.execSQL("DROP TABLE IF EXISTS reminderTable;");
-        db.execSQL("CREATE TABLE IF NOT EXISTS nameTable (user_name TEXT PRIMARY KEY);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS reminderTable (reminder_title TEXT PRIMARY KEY AUTOINCREMENT, reminder_descripton TEXT, reminder_time TIME, reminder_status BOOLEAN not null default 0);");
-        userName.setEnabled(false);
+        db.execSQL("CREATE TABLE IF NOT EXISTS nameTable (user_id INTEGER PRIMARY KEY, user_name TEXT );");
+        db.execSQL("CREATE TABLE IF NOT EXISTS reminderTable (reminder_id INTEGER PRIMARY KEY AUTOINCREMENT, reminder_title TEXT, reminder_descripton TEXT, reminder_time TIME, reminder_status BOOLEAN not null default 0);");
+        db.execSQL("INSERT INTO nameTable (user_id) VALUES (1);");
+
     }
 
     public void displayMessage(String title, String message){
@@ -72,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void saveUserName(){
+    /*public void saveUserName(){
         saveName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
                 clearEntries();
             }
         });
-    }
+    }*/
 
-    public void saveUserReminder(){
+    /*public void saveUserReminder(){
         saveReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(reminderTitle.getText().toString().isEmpty() && reminderDescription.getText().toString().isEmpty() /*&&  reminderTime.getValue.ToString().isEmpty()*/){
+                if(reminderTitle.getText().toString().isEmpty() && reminderDescription.getText().toString().isEmpty() /*&&  reminderTime.getValue.ToString().isEmpty()){
                     displayMessage("Error!","Please fill out all information");
                     return;
                 }
@@ -113,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 clearEntries();
             }
         });
-    }
+    }*/
 
     /*public void saveUserTime(){
         TimePicker tp =(TimePicker) findViewById(R.id.editTextTime);
@@ -143,12 +164,12 @@ public class MainActivity extends AppCompatActivity {
         timePickerDialog.show();
     }*/
 
-    public void statusUserReminder(){
+    /*public void statusUserReminder(){
         statusReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(cursor.moveToFirst()){
-                    cursor = db.rawQuery("SELECT * FROM reminderTable WHERE reminder_title = reminder_title",null);
+                    cursor = db.rawQuery("SELECT * FROM reminderTable WHERE reminder_id = reminder_id",null);
                     db.execSQL("UPDATE reminderTable SET reminder_status = TRUE WHERE reminder_status = FALSE");
                     displayMessage("Information!","Reminder has been successfully modified!");
                 }
@@ -164,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(cursor.moveToFirst()){
-                    cursor = db.rawQuery("SELECT * FROM reminderTable WHERE reminder_title = reminder_title",null);
+                    cursor = db.rawQuery("SELECT * FROM reminderTable WHERE reminder_id = reminder_id",null);
                     db.execSQL("UPDATE reminderTable SET reminder_title='"+reminderTitle.getText().toString()+"'," +
                             "reminder_description='"+reminderDescription.getText().toString()+ "'," +
                             "reminder_time='"+reminderTime.getDrawingTime()+
@@ -182,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         deleteReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cursor = db.rawQuery("SELECT * FROM reminderTable WHERE reminder_title = reminder_title",null);
+                cursor = db.rawQuery("SELECT * FROM reminderTable WHERE reminder_id = reminder_id",null);
                 if(cursor.moveToFirst()){
                     db.execSQL("DELETE FROM reminderTable WHERE reminder_title = reminder_title");
                     displayMessage("Information!","Reminder has been successfully deleted!");
@@ -196,5 +217,5 @@ public class MainActivity extends AppCompatActivity {
 
     private void clearEntries() {
     }
-
+    */
 }
