@@ -56,6 +56,7 @@ public class Homepage extends AppCompatActivity {
         }
     }
     // ReminderItem class with due date
+
     private static class ReminderItem {
         private String reminderTitle;
         private String reminderDescription;
