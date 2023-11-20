@@ -40,9 +40,6 @@ public class Homepage extends AppCompatActivity {
         // Assuming you have an ImageView with the id "timeOfDayImage" in your layout
         timeOfDayImage = findViewById(R.id.timeOfDayImage);
 
-        titleText = findViewById(R.id.titleText);
-        descriptionText = findViewById(R.id.descriptionText);
-
         // Get the current time
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
@@ -65,8 +62,6 @@ public class Homepage extends AppCompatActivity {
         }
 
 
-
-
         // Set the greeting and image based on the time of day
         if (hourOfDay >= 6 && hourOfDay < 12) {
             greetingText.setText("Good Morning,");
@@ -80,35 +75,27 @@ public class Homepage extends AppCompatActivity {
         }
     }
     // ReminderItem class with due date
-    private static class ReminderItem {
-        private String titleText;
-        private String descriptionText;
-        private String dueDateText;
 
-        ReminderItem(String titleText, String descriptionText, String dueDateText) {
-            this.titleText = titleText;
-            this.descriptionText = descriptionText;
-            this.dueDateText = dueDateText;
+    private static class ReminderItem {
+        private String reminderTitle;
+        private String reminderDescription;
+        private String reminderTime;
+
+        ReminderItem(String reminderTitle, String reminderDescription, String reminderTime) {
+            this.reminderTitle = reminderTitle;
+            this.reminderDescription = reminderDescription;
+            this.reminderTime = reminderTime;
         }
 
         // Getter methods for title, description, and due date
     }
 
-    // Update getDummyData to provide due dates
-    private List<ReminderItem> getDummyData() {
-        List<ReminderItem> reminderList = new ArrayList<>();
-        reminderList.add(new ReminderItem("Meeting", "Team meeting at 10 AM", "2023-11-20"));
-        reminderList.add(new ReminderItem("Call", "Call mom at 3 PM", "2023-11-21"));
-        // Add more dummy data as needed
-        return reminderList;
-    }
-
     // Update onBindViewHolder in ReminderAdapter to handle actions
     public void onBindViewHolder(ReminderViewHolder holder, int position) {
         ReminderItem item = reminderList.get(position);
-        holder.titleText.setText(item.titleText);
-        holder.descriptionText.setText(item.descriptionText);
-        holder.dueDateText.setText("Due Date: " + item.dueDateText);
+        holder.reminderTitle.setText(item.reminderTitle);
+        holder.reminderDescription.setText(item.reminderDescription);
+        holder.reminderTime.setText(item.reminderTime);
 
         // Set click listener for the expand icon
         holder.expandIcon.setOnClickListener(v -> {
@@ -119,16 +106,16 @@ public class Homepage extends AppCompatActivity {
 
     // Inner class for ViewHolder
     class ReminderViewHolder extends RecyclerView.ViewHolder {
-        TextView titleText;
-        TextView descriptionText;
-        TextView dueDateText;
+        TextView reminderTitle;
+        TextView reminderDescription;
+        TextView reminderTime;
         ImageView expandIcon;
 
         ReminderViewHolder(View itemView) {
             super(itemView);
-            titleText = itemView.findViewById(R.id.titleText);
-            descriptionText = itemView.findViewById(R.id.descriptionText);
-            dueDateText = itemView.findViewById(R.id.dueDateText);
+            reminderTitle = itemView.findViewById(R.id.reminderTitle);
+            reminderDescription = itemView.findViewById(R.id.reminderDescription);
+            reminderTime = itemView.findViewById(R.id.reminderTime);
             expandIcon = itemView.findViewById(R.id.expandIcon);
         }
     }
