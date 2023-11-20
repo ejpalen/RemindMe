@@ -1,32 +1,49 @@
 package com.example.remindme;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class Onboarding_UserInput extends AppCompatActivity {
 
-    Button confirmUser;
+    Button saveUser;
+    EditText userName;
+    SQLiteDatabase db;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding_user_input);
 
-        confirmUser = findViewById(R.id.confirm_user_btn);
+        userName = findViewById(R.id.editTextText);
+        saveUser = findViewById(R.id.confirm_user_btn);
 
-        confirmUser.setOnClickListener(new View.OnClickListener() {
+        saveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Onboarding_UserInput.this,
-                        MainActivity.class);
 
-                startActivity(intent);
+                // Start the Homepage activity
+                Intent homepageintent = new Intent(Onboarding_UserInput.this, Home.class);
+                startActivity(homepageintent);
+            }
+
+            private void displayMessage(String title, String message) {
+                builder.setCancelable(true);
+                builder.setTitle(title);
+                builder.setMessage(message);
+                builder.show();
             }
         });
+
+
 
 
     }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Homepage"
+    tools:context=".Home"
     tools:ignore="MissingConstraints">
 
     <FrameLayout
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/syne_bold"
-        android:text="Hello, Aaron!"
+        android:text="Hello Aaron!"
         android:textAlignment="center"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
         android:layout_height="69dp"
         tools:layout_editor_absoluteX="307dp"
         tools:layout_editor_absoluteY="36dp"
-        android:src="@drawable/morning" />
+        tools:srcCompat="@tools:sample/avatars" />
 
     <!-- RecyclerView to display reminder cards -->
 
@@ -68,7 +68,7 @@
         android:orientation="vertical"
         android:padding="16dp"
         tools:layout_editor_absoluteX="15dp"
-        tools:layout_editor_absoluteY="176dp">
+        tools:layout_editor_absoluteY="186dp">
 
         <ImageView
             android:id="@+id/expandIcon"
@@ -79,7 +79,7 @@
             android:src="@drawable/menu" />
 
         <TextView
-            android:id="@+id/reminderTitle"
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/syne"
@@ -102,18 +102,18 @@
                 android:src="@drawable/alarm" />
 
             <TextView
-                android:id="@+id/reminderTime"
+                android:id="@+id/dueDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
                 android:fontFamily="@font/syne"
                 android:text="10:00AM"
                 android:textSize="13sp" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/reminderDescription"
+            android:id="@+id/descriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

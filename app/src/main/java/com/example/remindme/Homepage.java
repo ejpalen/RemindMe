@@ -1,5 +1,8 @@
 package com.example.remindme;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +18,9 @@ import java.util.Calendar;
 
 public class Homepage extends AppCompatActivity {
 
-    TextView greetingText, userNameText;
+    TextView greetingText, userNameText, titleText, descriptionText;
+    Cursor cursor;
+    SQLiteDatabase db;
     private ImageView timeOfDayImage;
     private List<ReminderItem> reminderList;
 
@@ -23,6 +28,8 @@ public class Homepage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+
+        db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
 
         // Assuming you have a TextView with the id "greetingText" in your layout
         greetingText = findViewById(R.id.greetingText);
@@ -38,10 +45,22 @@ public class Homepage extends AppCompatActivity {
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
         // Get the user name from the input screen (assuming it's passed through Intent)
-        String userName = getIntent().getStringExtra("userName");
+        //String confirmUser = getIntent().getStringExtra("confirmUser");
+        //String confirmUser =
 
-        // Set the user name in the TextView
-        userNameText.setText("Hello, " + userName + "!");
+        Cursor cursor = db.rawQuery("SELECT user_name FROM nameTable WHERE user_id = 1", null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int userNameIndex = cursor.getColumnIndex("user_name");
+            String userName = cursor.getString(userNameIndex);
+            cursor.close(); // Close the cursor when done
+            if (userName != null) {
+                userNameText.setText("Hello, " + userName + "!");
+            }
+        } else {
+            // Handle the case where the cursor is null or empty
+            // You might want to set a default value for the username or show an error message
+        }
+
 
         // Set the greeting and image based on the time of day
         if (hourOfDay >= 6 && hourOfDay < 12) {
