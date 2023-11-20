@@ -60,12 +60,68 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <!-- RecyclerView to display reminder cards -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/reminderRecyclerView"
-        android:layout_width="365dp"
-        android:layout_height="410dp"
-        android:layout_below="@id/userNameText"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="204dp" />
+
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_form"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="186dp">
+
+        <ImageView
+            android:id="@+id/expandIcon"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:contentDescription="Expand Icon"
+            android:src="@drawable/menu" />
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/syne"
+            android:text="Reminder Title"
+            android:textSize="21sp" />
+
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="186dp">
+
+                <ImageView
+                    android:id="@+id/alarm"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Alarm"
+                    android:src="@drawable/alarm" />
+
+                <TextView
+                    android:id="@+id/dueDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:fontFamily="@font/syne"
+                    android:text="10:00AM"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/syne"
+            android:text="Reminder Description"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

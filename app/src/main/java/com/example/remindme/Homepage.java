@@ -15,9 +15,8 @@ import java.util.Calendar;
 
 public class Homepage extends AppCompatActivity {
 
-    private TextView greetingText, userNameText;
+    TextView greetingText, userNameText, titleText, descriptionText;
     private ImageView timeOfDayImage;
-    private RecyclerView recyclerView;
     private List<ReminderItem> reminderList;
 
     @Override
@@ -34,13 +33,8 @@ public class Homepage extends AppCompatActivity {
         // Assuming you have an ImageView with the id "timeOfDayImage" in your layout
         timeOfDayImage = findViewById(R.id.timeOfDayImage);
 
-        recyclerView = findViewById(R.id.reminderRecyclerView);
-
-        // Initialize RecyclerView
-//        reminderList = getDummyData(); // Replace with your data source
-//        ReminderAdapter adapter = new ReminderAdapter(reminderList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapter);
+        titleText = findViewById(R.id.titleText);
+        descriptionText = findViewById(R.id.descriptionText);
 
         // Get the current time
         Calendar calendar = Calendar.getInstance();
@@ -64,25 +58,57 @@ public class Homepage extends AppCompatActivity {
             timeOfDayImage.setImageResource(R.drawable.evening);
         }
     }
+    // ReminderItem class with due date
+    private static class ReminderItem {
+        private String titleText;
+        private String descriptionText;
+        private String dueDateText;
 
-    // Dummy data for testing
+        ReminderItem(String titleText, String descriptionText, String dueDateText) {
+            this.titleText = titleText;
+            this.descriptionText = descriptionText;
+            this.dueDateText = dueDateText;
+        }
+
+        // Getter methods for title, description, and due date
+    }
+
+    // Update getDummyData to provide due dates
     private List<ReminderItem> getDummyData() {
-        List<ReminderItem> dummyList = new ArrayList<>();
-        reminderList.add(new ReminderItem("Meeting", "Team meeting at 10 AM"));
-        reminderList.add(new ReminderItem("Call", "Call mom at 3 PM"));
+        List<ReminderItem> reminderList = new ArrayList<>();
+        reminderList.add(new ReminderItem("Meeting", "Team meeting at 10 AM", "2023-11-20"));
+        reminderList.add(new ReminderItem("Call", "Call mom at 3 PM", "2023-11-21"));
         // Add more dummy data as needed
         return reminderList;
     }
 
-    // Inner class for ReminderItem (Replace with your actual ReminderItem class)
-    private static class ReminderItem {
-        private String title;
-        private String description;
+    // Update onBindViewHolder in ReminderAdapter to handle actions
+    public void onBindViewHolder(ReminderViewHolder holder, int position) {
+        ReminderItem item = reminderList.get(position);
+        holder.titleText.setText(item.titleText);
+        holder.descriptionText.setText(item.descriptionText);
+        holder.dueDateText.setText("Due Date: " + item.dueDateText);
 
-        ReminderItem(String title, String description) {
-            this.title = title;
-            this.description = description;
-        }
+        // Set click listener for the expand icon
+        holder.expandIcon.setOnClickListener(v -> {
+            // Toggle visibility of action menu
+
+        });
     }
 
+    // Inner class for ViewHolder
+    class ReminderViewHolder extends RecyclerView.ViewHolder {
+        TextView titleText;
+        TextView descriptionText;
+        TextView dueDateText;
+        ImageView expandIcon;
+
+        ReminderViewHolder(View itemView) {
+            super(itemView);
+            titleText = itemView.findViewById(R.id.titleText);
+            descriptionText = itemView.findViewById(R.id.descriptionText);
+            dueDateText = itemView.findViewById(R.id.dueDateText);
+            expandIcon = itemView.findViewById(R.id.expandIcon);
+        }
+    }
 }
