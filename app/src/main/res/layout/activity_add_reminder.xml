@@ -44,7 +44,11 @@
     </FrameLayout>
 
     <TextView
+<<<<<<< HEAD
         android:id="@+id/textView"
+=======
+        android:id="@+id/userNameText"
+>>>>>>> 218c12a599aae8f68e6ee502665d4011e89cfbb5
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -71,7 +75,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         app:layout_constraintTop_toBottomOf="@+id/textView">
+=======
+        app:layout_constraintTop_toBottomOf="@+id/userNameText">
+>>>>>>> 218c12a599aae8f68e6ee502665d4011e89cfbb5
 
         <EditText
             android:id="@+id/descriptioninput"
