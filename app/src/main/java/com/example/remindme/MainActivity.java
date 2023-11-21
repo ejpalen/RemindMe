@@ -53,9 +53,16 @@ public class MainActivity extends AppCompatActivity {
         //MyReceiver myReceiver = new MyReceiver();
         //registerReceiver(myReceiver,intentFilter );
 
-        Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
-
-        startActivity(intent);
+        Cursor cursor = db.rawQuery("SELECT * FROM nameTable WHERE user_id = 1", null);
+        if (cursor != null && cursor.getCount() > 0) {
+            // If user_id = 1 exists in the database, start the Home activity
+            Intent intent = new Intent(MainActivity.this, Home.class);
+            startActivity(intent);
+        } else {
+            // If user_id = 1 does not exist in the database, start the OnboardingScreen activity
+            Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
+            startActivity(intent);
+        }
 
 //        Onboarding_UserInput userInput = new Onboarding_UserInput(db);
 
@@ -80,11 +87,10 @@ public class MainActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
 
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-        db.execSQL("DROP TABLE IF EXISTS nameTable;");
-        //db.execSQL("DROP TABLE IF EXISTS reminderTable;");
+        //db.execSQL("DROP TABLE IF EXISTS nameTable;");
+        db.execSQL("DROP TABLE IF EXISTS reminderTable;");
         db.execSQL("CREATE TABLE IF NOT EXISTS nameTable (user_id INTEGER PRIMARY KEY, user_name TEXT );");
         db.execSQL("CREATE TABLE IF NOT EXISTS reminderTable (reminder_id INTEGER PRIMARY KEY AUTOINCREMENT, reminder_title TEXT, reminder_descripton TEXT, reminder_time TIME, reminder_status BOOLEAN not null default 0);");
-        db.execSQL("INSERT INTO nameTable (user_id) VALUES (1);");
 
         db.execSQL("INSERT INTO reminderTable(reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('Go to the gym', 'Meetup with Ej and Dan', '9:30', 0);");
         db.execSQL("INSERT INTO reminderTable(reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('UMAK Nexus App', 'Create the Shopping Page', '10:00', 0);");

@@ -18,57 +18,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/greetingText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
                 android:clickable="false"
                 android:fontFamily="@font/syne"
                 android:text="Good Morning,"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
-        </LinearLayout>
+
+        <TextView
+            android:id="@+id/userNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/syne_bold"
+            android:text="Hello, Aaron!"
+            android:textAlignment="center"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.111"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backButtonFrame" />
+
     </FrameLayout>
-
-    <TextView
-        android:id="@+id/userNameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/syne_bold"
-        android:text="Hello, Aaron!"
-        android:textAlignment="center"
-        android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButtonFrame" />
-
-    <ImageView
-        android:id="@+id/timeOfDayImage"
-        android:layout_width="74dp"
-        android:layout_height="69dp"
-        tools:layout_editor_absoluteX="307dp"
-        tools:layout_editor_absoluteY="36dp"
-        android:src="@drawable/morning" />
 
     <!-- RecyclerView to display reminder cards -->
 
     <LinearLayout
         android:layout_width="380dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
         android:background="@drawable/border_form"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:layout_editor_absoluteX="15dp"
-        tools:layout_editor_absoluteY="176dp">
+        app:layout_constraintTop_toBottomOf="@+id/timeOfDayImage"
+        tools:layout_editor_absoluteX="15dp">
 
         <ImageView
             android:id="@+id/expandIcon"
@@ -122,6 +110,15 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/timeOfDayImage"
+        android:layout_width="74dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/morning"
+        tools:layout_editor_absoluteX="318dp"
+        tools:layout_editor_absoluteY="31dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

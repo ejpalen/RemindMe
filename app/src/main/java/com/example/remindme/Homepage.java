@@ -48,7 +48,7 @@ public class Homepage extends AppCompatActivity {
         //String confirmUser = getIntent().getStringExtra("confirmUser");
         //String confirmUser =
 
-        Cursor cursor = db.rawQuery("SELECT user_name FROM nameTable WHERE user_id = 1", null);
+        Cursor cursor = db.rawQuery("SELECT user_name FROM nameTable WHERE user_id = 2", null);
         if (cursor != null && cursor.moveToFirst()) {
             int userNameIndex = cursor.getColumnIndex("user_name");
             String userName = cursor.getString(userNameIndex);
@@ -74,6 +74,7 @@ public class Homepage extends AppCompatActivity {
             timeOfDayImage.setImageResource(R.drawable.evening);
         }
     }
+
     // ReminderItem class with due date
 
     private static class ReminderItem {
