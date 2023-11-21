@@ -27,18 +27,15 @@ public class Onboarding_UserInput extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding_user_input);
 
-
-
         userName = findViewById(R.id.editTextText);
         saveUser = findViewById(R.id.confirm_user_btn);
 
         saveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
                 db.execSQL("INSERT INTO nameTable(user_name) VALUES('" + userName.getText().toString() + "')");
-
-
+                
                 // Start the Homepage activity
                 Intent homepageintent = new Intent(Onboarding_UserInput.this, Home.class);
                 startActivity(homepageintent);
