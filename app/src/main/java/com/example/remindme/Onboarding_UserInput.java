@@ -18,10 +18,16 @@ public class Onboarding_UserInput extends AppCompatActivity {
     SQLiteDatabase db;
     AlertDialog.Builder builder;
 
+//    public Onboarding_UserInput(SQLiteDatabase database) {
+//        this.db = database;
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding_user_input);
+
+
 
         userName = findViewById(R.id.editTextText);
         saveUser = findViewById(R.id.confirm_user_btn);
@@ -29,6 +35,9 @@ public class Onboarding_UserInput extends AppCompatActivity {
         saveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                db.execSQL("INSERT INTO nameTable(user_name) VALUES('" + userName.getText().toString() + "')");
+
 
                 // Start the Homepage activity
                 Intent homepageintent = new Intent(Onboarding_UserInput.this, Home.class);
