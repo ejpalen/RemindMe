@@ -49,18 +49,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/syne_bold"
-        android:text="Create New Reminder"
+        android:text="Edit Reminder"
         android:textAlignment="center"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backButtonFrame" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="366dp"
-        android:layout_height="315dp"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
@@ -72,21 +72,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userNameText">
-
-        <TextView
-            android:id="@+id/remindertitle3"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="108dp"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="@font/syne_bold"
-            android:text="Description"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.769"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reminderinput" />
 
         <EditText
             android:id="@+id/descriptioninput"
@@ -153,20 +138,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/remindertitle" />
 
-        <Button
-            android:id="@+id/selecttime"
-            android:layout_width="241dp"
-            android:layout_height="39dp"
+        <TextView
+            android:id="@+id/timetext"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_marginTop="72dp"
-            android:backgroundTint="#64CE82"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/syne_bold"
-            android:onClick="popTimePicker"
-            android:text="Select Time"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/descriptioninput"
-            tools:layout_editor_absoluteX="63dp" />
+            android:text="Time"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptioninput" />
 
+        <EditText
+            android:id="@+id/editTextTime"
+            android:layout_width="321dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:fontFamily="@font/syne"
+            android:inputType="time"
+            android:text="10:00AM"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timetext" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
@@ -174,13 +179,12 @@
         android:layout_width="360dp"
         android:layout_height="42dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:backgroundTint="#39CE79"
         android:fontFamily="@font/syne_bold"
-        android:text="Add Reminder"
+        android:text="Edit Reminder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 

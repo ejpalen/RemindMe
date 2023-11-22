@@ -13,7 +13,11 @@
         android:theme="@style/Theme.RemindMe"
         tools:targetApi="34">
         <activity
-            android:name=".Home"
+            android:name=".EditReminder"
+            android:exported="false" />
+        <activity
+            android:name=".Add_Reminder"
+
             android:exported="false" />
         <activity
             android:name=".Add_Reminder"
