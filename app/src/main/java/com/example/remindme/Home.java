@@ -16,7 +16,7 @@ import java.util.List;
 
 import java.util.Calendar;
 
-public class Homepage extends AppCompatActivity {
+public class Home extends AppCompatActivity {
 
     TextView greetingText, userNameText, titleText, descriptionText;
     Cursor cursor;
@@ -48,7 +48,7 @@ public class Homepage extends AppCompatActivity {
         //String confirmUser = getIntent().getStringExtra("confirmUser");
         //String confirmUser =
 
-        Cursor cursor = db.rawQuery("SELECT user_name FROM nameTable WHERE user_id = 2", null);
+        Cursor cursor = db.rawQuery("SELECT user_name FROM nameTable WHERE user_id = 1", null);
         if (cursor != null && cursor.moveToFirst()) {
             int userNameIndex = cursor.getColumnIndex("user_name");
             String userName = cursor.getString(userNameIndex);

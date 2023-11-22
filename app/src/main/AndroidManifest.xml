@@ -17,12 +17,19 @@
             android:exported="false" />
         <activity
             android:name=".Add_Reminder"
+
             android:exported="false" />
+        <activity
+            android:name=".Add_Reminder"
+            android:exported="true" />
         <activity
             android:name=".Onboarding_UserInput"
             android:exported="true" />
         <activity
             android:name=".OnboardingScreen"
+            android:exported="true" />
+        <activity
+            android:name=".Homepage"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
