@@ -1,6 +1,7 @@
 package com.example.remindme;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -27,7 +28,16 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homepage);
+        setContentView(R.layout.activity_home);
+
+        /*Intent intent = getIntent();
+        if (intent != null) {
+            String enteredUsername = intent.getStringExtra("username");
+            if (enteredUsername != null) {
+                TextView userNameTextView = findViewById(R.id.userNameText);
+                userNameTextView.setText("Welcome, " + enteredUsername + "!");
+            }
+        }*/
 
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
 
@@ -48,15 +58,18 @@ public class Home extends AppCompatActivity {
         //String confirmUser = getIntent().getStringExtra("confirmUser");
         //String confirmUser =
 
-        Cursor cursor = db.rawQuery("SELECT user_name FROM nameTable WHERE user_id = 1", null);
+        Cursor cursor = db.rawQuery("SELECT user_login FROM nameTable WHERE user_status = 1", null);
         if (cursor != null && cursor.moveToFirst()) {
-            int userNameIndex = cursor.getColumnIndex("user_name");
-            String userName = cursor.getString(userNameIndex);
-            cursor.close(); // Close the cursor when done
-            if (userName != null) {
-                userNameText.setText("Hello, " + userName + "!");
+            int userNameIndex = cursor.getColumnIndex("user_login");
+            if (userNameIndex != -1) {
+                String userName = cursor.getString(userNameIndex);
+                cursor.close(); // Close the cursor when done
+                if (userName != null) {
+                    userNameText.setText("Hello, " + userName + "!");
+                }
             }
-        } else {
+        }
+        else {
             // Handle the case where the cursor is null or empty
             // You might want to set a default value for the username or show an error message
         }
