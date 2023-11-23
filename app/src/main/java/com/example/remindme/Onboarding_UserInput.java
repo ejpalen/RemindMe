@@ -27,8 +27,8 @@ public class Onboarding_UserInput extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding_user_input);
 
-        userName = findViewById(R.id.editTextText);
-        saveUser = findViewById(R.id.confirm_user_btn);
+        userName = findViewById(R.id.createaccount_name_tv);
+        saveUser = findViewById(R.id.login_btn);
 
         saveUser.setOnClickListener(new View.OnClickListener() {
             @Override

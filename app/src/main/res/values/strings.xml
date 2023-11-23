@@ -9,4 +9,12 @@
         Stay organized effortlessly. Set reminders for meetings, birthdays, and daily tasks with RemindMe. Your go-to app for never missing a beat
     </string>
 
+    <string name="createAccountText">
+       Or <u>Create A New Account?</u>
+    </string>
+
+    <string name="loginAccountText">
+       Or <u>Login To Your Account?</u>
+    </string>
+
 </resources>
