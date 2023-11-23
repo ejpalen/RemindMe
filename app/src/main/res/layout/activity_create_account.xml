@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/onboarding_screen_background"
-    tools:context=".Onboarding_UserInput">
+    tools:context=".CreateAccount">
+
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="240dp"
         android:layout_height="59dp"
-        android:layout_marginTop="265dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="231dp"
+        android:layout_marginBottom="15dp"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toTopOf="@+id/username_tv"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,54 +25,84 @@
         android:id="@+id/username_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:fontFamily="@font/syne_bold"
-        android:text="What's your name?"
+        android:text="Create an account"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/createaccount_name_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/createAccountLogin_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/syne_bold"
+        android:text="@string/loginAccountText"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/creataccount_btn" />
 
     <EditText
-        android:id="@+id/createaccount_name_tv"
+        android:id="@+id/createaccount_password_tv"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/border"
         android:ems="10"
         android:fontFamily="@font/syne"
         android:foregroundGravity="center"
         android:gravity="center"
         android:inputType="text"
-        android:text="Enter your name"
+        android:text="Password"
         android:textSize="14sp"
         app:circularflow_defaultRadius="40dp"
         app:circularflow_radiusInDP="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/login_btn"
+        app:layout_constraintBottom_toTopOf="@+id/creataccount_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_tv" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/login_btn"
+    <EditText
+        android:id="@+id/createaccount_name_tv"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="242dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:fontFamily="@font/syne"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:inputType="text"
+        android:text="Nickname"
+        android:textSize="14sp"
+        app:circularflow_defaultRadius="40dp"
+        app:circularflow_radiusInDP="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/createaccount_password_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/creataccount_btn"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_btn_complete"
         android:backgroundTint="#39CE79"
         android:fontFamily="@font/syne_bold"
-        android:text="Confirm"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="CREATE ACCOUNT"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createaccount_name_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/createaccount_password_tv" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -86,6 +117,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="365dp" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

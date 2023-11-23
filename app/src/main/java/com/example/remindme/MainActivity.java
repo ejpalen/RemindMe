@@ -3,19 +3,14 @@ package com.example.remindme;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TimePicker;
-
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,19 +48,19 @@ public class MainActivity extends AppCompatActivity {
         //MyReceiver myReceiver = new MyReceiver();
         //registerReceiver(myReceiver,intentFilter );
 
-        Cursor cursor = db.rawQuery("SELECT * FROM nameTable WHERE user_id = 1", null);
-        if (cursor != null && cursor.getCount() > 0) {
-            // If user_id = 1 exists in the database, start the Home activity
-            Intent intent = new Intent(MainActivity.this, Home.class);
-            startActivity(intent);
-        } else {
-            // If user_id = 1 does not exist in the database, start the OnboardingScreen activity
-            Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
-            startActivity(intent);
-        }
+//        Cursor cursor = db.rawQuery("SELECT * FROM nameTable WHERE user_id = 1", null);
+//        if (cursor != null && cursor.getCount() > 0) {
+//            // If user_id = 1 exists in the database, start the Home activity
+//            Intent intent = new Intent(MainActivity.this, Home.class);
+//            startActivity(intent);
+//        } else {
+//            // If user_id = 1 does not exist in the database, start the OnboardingScreen activity
+//            Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
+//            startActivity(intent);
+//        }
 
-//        Onboarding_UserInput userInput = new Onboarding_UserInput(db);
-
+        Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
+        startActivity(intent);
 
     }
 
@@ -78,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     public void createUserDB(){
-        userName=findViewById(R.id.editTextText);
+        userName=findViewById(R.id.createaccount_name_tv);
         reminderTitle=findViewById(R.id.reminderinput);
         reminderDescription=findViewById(R.id.descriptioninput);
         //reminderTime=(R.id.editTextTime);
