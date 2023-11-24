@@ -3,7 +3,9 @@ package com.example.remindme;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,7 @@ public class Add_Reminder extends AppCompatActivity {
     EditText reminderInput;
     Button selecttime;
     int hour, minute;
+    SQLiteDatabase db;
     Button submitButton;
 
     @Override
@@ -56,6 +59,10 @@ public class Add_Reminder extends AppCompatActivity {
             public void onClick(View view) {
                 // Handle submit button click
                 // Add your logic here
+
+                db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
+                db.execSQL("INSERT INTO reminderTable(user_name, reminder_title, reminder_description, reminder_time) VALUES('madeby.sol', '" + reminderInput.getText().toString() + "', '" + descriptionInput.getText().toString() + "', '" + selecttime.getText().toString() + "')");
+
             }
         });
     }

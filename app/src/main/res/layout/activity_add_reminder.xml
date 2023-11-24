@@ -78,13 +78,13 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="108dp"
+            android:layout_marginTop="100dp"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/syne_bold"
-            android:text="Description"
+            android:text="Time"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.769"
+            app:layout_constraintHorizontal_bias="0.576"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reminderinput" />
 
@@ -93,7 +93,7 @@
             android:layout_width="317dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp"
             android:ems="10"
             android:fontFamily="@font/syne"
@@ -101,7 +101,7 @@
             android:text="Leg day with Dan and Ej"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.448"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/remindertitle2" />
 
@@ -155,17 +155,35 @@
 
         <Button
             android:id="@+id/selecttime"
-            android:layout_width="241dp"
-            android:layout_height="39dp"
-            android:layout_margin="5dp"
-            android:layout_marginTop="72dp"
+            android:layout_width="119dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="221dp"
+            android:layout_marginEnd="179dp"
+            android:layout_marginBottom="59dp"
             android:backgroundTint="#64CE82"
             android:fontFamily="@font/syne_bold"
             android:onClick="popTimePicker"
             android:text="Select Time"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/descriptioninput"
-            tools:layout_editor_absoluteX="63dp" />
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="32dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="221dp"
+            android:layout_marginEnd="309dp"
+            android:layout_marginBottom="59dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/alarm" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

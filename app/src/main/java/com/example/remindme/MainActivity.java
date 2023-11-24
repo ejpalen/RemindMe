@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(intent);
 //        }
 
-        Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
+        Intent intent = new Intent(MainActivity.this, Add_Reminder.class);
         startActivity(intent);
 
     }
@@ -85,11 +85,11 @@ public class MainActivity extends AppCompatActivity {
         //db.execSQL("DROP TABLE IF EXISTS nameTable;");
         db.execSQL("DROP TABLE IF EXISTS reminderTable;");
         db.execSQL("CREATE TABLE IF NOT EXISTS nameTable (user_id INTEGER PRIMARY KEY, user_name TEXT );");
-        db.execSQL("CREATE TABLE IF NOT EXISTS reminderTable (reminder_id INTEGER PRIMARY KEY AUTOINCREMENT, reminder_title TEXT, reminder_descripton TEXT, reminder_time TIME, reminder_status BOOLEAN not null default 0);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS reminderTable (reminder_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT, reminder_title TEXT, reminder_descripton TEXT, reminder_time TIME, reminder_status BOOLEAN not null default 0);");
 
-        db.execSQL("INSERT INTO reminderTable(reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('Go to the gym', 'Meetup with Ej and Dan', '9:30', 0);");
-        db.execSQL("INSERT INTO reminderTable(reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('UMAK Nexus App', 'Create the Shopping Page', '10:00', 0);");
-        db.execSQL("INSERT INTO reminderTable(reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('Bring Laptop', 'Overnight with the team', '8:15', 0);");
+        db.execSQL("INSERT INTO reminderTable('madeby.sol', reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('Go to the gym', 'Meetup with Ej and Dan', '9:30', 0);");
+        db.execSQL("INSERT INTO reminderTable('madeby.sol', reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('UMAK Nexus App', 'Create the Shopping Page', '10:00', 0);");
+        db.execSQL("INSERT INTO reminderTable('madeby.sol', reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('Bring Laptop', 'Overnight with the team', '8:15', 0);");
 
 
     }
