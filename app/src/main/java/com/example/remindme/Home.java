@@ -5,25 +5,24 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.widget.ListView;
 
 import java.util.Calendar;
 
 public class Home extends AppCompatActivity {
 
-    TextView greetingText, userNameText, titleText, descriptionText;
+    TextView greetingText, userNameText;
     Cursor cursor;
     SQLiteDatabase db;
     private ImageView timeOfDayImage;
-    private List<ReminderItem> reminderList;
+
+    private ReminderAdapter reminderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +39,7 @@ public class Home extends AppCompatActivity {
         }*/
 
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
+
 
         // Assuming you have a TextView with the id "greetingText" in your layout
         greetingText = findViewById(R.id.greetingText);
@@ -86,51 +86,41 @@ public class Home extends AppCompatActivity {
             greetingText.setText("Good Evening,");
             timeOfDayImage.setImageResource(R.drawable.evening);
         }
+
+        // Display reminders in the ListView
+        displayReminders();
     }
 
-    // ReminderItem class with due date
+    private void displayReminders() {
+        List<Reminder> reminders = getRemindersFromDatabase();
+        // Assuming you have a ListView with the id "remindersListView" in your layout
+        reminderAdapter = new ReminderAdapter(this, reminders);
 
-    private static class ReminderItem {
-        private String reminderTitle;
-        private String reminderDescription;
-        private String reminderTime;
+        ListView remindersListView = findViewById(R.id.remindersListView);
+        remindersListView.setAdapter(reminderAdapter);
+    }
 
-        ReminderItem(String reminderTitle, String reminderDescription, String reminderTime) {
-            this.reminderTitle = reminderTitle;
-            this.reminderDescription = reminderDescription;
-            this.reminderTime = reminderTime;
+    private List<Reminder> getRemindersFromDatabase() {
+        List<Reminder> reminders = new ArrayList<>();
+
+
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM reminderTable", null);
+                while (cursor.moveToNext()) {
+                    String reminderTitleIndex = String.valueOf(cursor.getColumnIndex("reminder_title"));
+                    String reminderDescriptonIndex = String.valueOf(cursor.getColumnIndex("reminder_descripton"));
+                    String reminderTimeIndex = String.valueOf(cursor.getColumnIndex("reminder_time"));
+
+                    Reminder reminder = new Reminder(reminderTitleIndex, reminderDescriptonIndex, reminderTimeIndex);
+                    reminders.add(reminder);
+                }
+        } catch (Exception e) {
+            // Handle exceptions
+        } finally {
+            db.close();
         }
 
-        // Getter methods for title, description, and due date
+        return reminders;
     }
 
-    // Update onBindViewHolder in ReminderAdapter to handle actions
-    public void onBindViewHolder(ReminderViewHolder holder, int position) {
-        ReminderItem item = reminderList.get(position);
-        holder.reminderTitle.setText(item.reminderTitle);
-        holder.reminderDescription.setText(item.reminderDescription);
-        holder.reminderTime.setText(item.reminderTime);
-
-        // Set click listener for the expand icon
-        holder.expandIcon.setOnClickListener(v -> {
-            // Toggle visibility of action menu
-
-        });
-    }
-
-    // Inner class for ViewHolder
-    class ReminderViewHolder extends RecyclerView.ViewHolder {
-        TextView reminderTitle;
-        TextView reminderDescription;
-        TextView reminderTime;
-        ImageView expandIcon;
-
-        ReminderViewHolder(View itemView) {
-            super(itemView);
-            reminderTitle = itemView.findViewById(R.id.reminderTitle);
-            reminderDescription = itemView.findViewById(R.id.reminderDescription);
-            reminderTime = itemView.findViewById(R.id.reminderTime);
-            expandIcon = itemView.findViewById(R.id.expandIcon);
-        }
-    }
 }
