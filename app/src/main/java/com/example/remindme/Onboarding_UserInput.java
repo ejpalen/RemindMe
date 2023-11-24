@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Onboarding_UserInput extends AppCompatActivity {
 
@@ -33,12 +34,19 @@ public class Onboarding_UserInput extends AppCompatActivity {
         saveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-                db.execSQL("INSERT INTO nameTable(user_name) VALUES('" + userName.getText().toString() + "')");
-                
-                // Start the Homepage activity
-                Intent homepageintent = new Intent(Onboarding_UserInput.this, Home.class);
-                startActivity(homepageintent);
+                String name = userName.getText().toString();
+
+                if (name.isEmpty()) {
+                    Toast.makeText(Onboarding_UserInput.this, "Please enter name", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
+                    db.execSQL("INSERT INTO nameTable(user_name) VALUES('" + name + "')");
+
+                    // Start the Homepage activity
+                    Intent homepageintent = new Intent(Onboarding_UserInput.this, Home.class);
+                    startActivity(homepageintent);
+                }
             }
 
             private void displayMessage(String title, String message) {
