@@ -87,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
         db.execSQL("CREATE TABLE IF NOT EXISTS nameTable (user_id INTEGER PRIMARY KEY, user_name TEXT );");
         db.execSQL("CREATE TABLE IF NOT EXISTS reminderTable (reminder_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT, reminder_title TEXT, reminder_descripton TEXT, reminder_time TIME, reminder_status BOOLEAN not null default 0);");
 
-        db.execSQL("INSERT INTO reminderTable('madeby.sol', reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('Go to the gym', 'Meetup with Ej and Dan', '9:30', 0);");
-        db.execSQL("INSERT INTO reminderTable('madeby.sol', reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('UMAK Nexus App', 'Create the Shopping Page', '10:00', 0);");
-        db.execSQL("INSERT INTO reminderTable('madeby.sol', reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('Bring Laptop', 'Overnight with the team', '8:15', 0);");
+        db.execSQL("INSERT INTO reminderTable(user_name, reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('madeby.sol', 'Go to the gym', 'Meetup with Ej and Dan', '9:30', 0);");
+        db.execSQL("INSERT INTO reminderTable(user_name, reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('madeby.sol', 'UMAK Nexus App', 'Create the Shopping Page', '10:00', 0);");
+        db.execSQL("INSERT INTO reminderTable(user_name, reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('madeby.sol', 'Bring Laptop', 'Overnight with the team', '8:15', 0);");
 
 
     }
