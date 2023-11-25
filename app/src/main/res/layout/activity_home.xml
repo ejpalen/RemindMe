@@ -4,10 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/headerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
     android:background="@drawable/background"
-    tools:context=".Home"
-    tools:ignore="MissingConstraints">
+    app:layout_goneMarginBottom="20dp"
+    tools:context=".Home">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:src="@drawable/add"
+        app:backgroundTint="#39CE79"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <FrameLayout
         android:id="@+id/backButtonFrame"
@@ -36,8 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/syne_bold"
-            android:text="Hello, Aaron!"
+            android:text="Hello, User!"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.111"
@@ -69,13 +84,33 @@
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="63dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="17dp"
-        android:background="@drawable/border_form"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="0dp"
+        android:paddingBottom="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeOfDayImage" />
+        app:layout_constraintTop_toBottomOf="@+id/timeOfDayImage">
+
+    </ListView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:foregroundGravity="center_vertical|clip_horizontal|center"
+        app:backgroundTint="@color/white"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/fabAddReminder"
+        app:layout_constraintEnd_toEndOf="@+id/fabAddReminder"
+        app:layout_constraintStart_toStartOf="@+id/fabAddReminder"
+        app:srcCompat="@drawable/logout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

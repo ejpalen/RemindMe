@@ -11,16 +11,16 @@ public class Reminder {
         this.reminderTime = reminderTime;
     }
 
-    public String getreminderTitle() {
-        return null;
+    public String getReminderTitle() {
+        return reminderTitle;
     }
 
-    public String getreminderDescription() {
-        return null;
+    public String getReminderDescription() {
+        return reminderDescription;
     }
 
-    public String getreminderTime() {
-        return null;
+    public String getReminderTime() {
+        return reminderTime;
     }
 
     // Getters and setters

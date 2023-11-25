@@ -30,6 +30,7 @@ public class CreateAccount extends AppCompatActivity {
         account_name = findViewById(R.id.createaccount_name_tv);
         account_password = findViewById(R.id.createaccount_password_tv);
 
+
         createAccountLoginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,6 +42,7 @@ public class CreateAccount extends AppCompatActivity {
         creataccount_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String userName = account_name.getText().toString();
                 String userPassword = account_password.getText().toString();
 
@@ -55,10 +57,12 @@ public class CreateAccount extends AppCompatActivity {
                         // User already exists, show an error message
                         Toast.makeText(CreateAccount.this, "Account already exists. Please choose a different username.", Toast.LENGTH_SHORT).show();
                     } else {
-                        // User does not exist, proceed with inserting into the database and starting the login activity
                         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-                        db.execSQL("INSERT INTO nameTable(user_login, user_password) VALUES('" + userName + "', '" + userPassword + "')");
-                        db.execSQL("UPDATE nameTable SET user_status = 0 WHERE user_login = '"+ userName +"'");
+                        // User does not exist, proceed with inserting into the database and starting the login activity
+                        db.execSQL("INSERT INTO nameTable(user_name, user_pass) VALUES('" + userName + "', '" + userPassword + "')");
+//                        db.execSQL("UPDATE nameTable SET user_status = 0 WHERE user_login = '"+ userName +"'");
+
+                        db.close();
 
                         Intent loginIntent = new Intent(CreateAccount.this, Login.class);
                         startActivity(loginIntent);
@@ -71,7 +75,7 @@ public class CreateAccount extends AppCompatActivity {
     private boolean isUserExists(String userName) {
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
 
-        String query = "SELECT * FROM nameTable WHERE user_login = ?";
+        String query = "SELECT * FROM nameTable WHERE user_name = ?";
         String[] selectionArgs = {userName};
 
         Cursor cursor = db.rawQuery(query, selectionArgs);
@@ -80,7 +84,7 @@ public class CreateAccount extends AppCompatActivity {
         if (cursor != null) {
             cursor.close();
         }
-        db.close();
+
 
         return userExists;
     }

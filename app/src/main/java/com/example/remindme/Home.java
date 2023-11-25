@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import android.widget.ListView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 
@@ -23,6 +26,9 @@ public class Home extends AppCompatActivity {
     private ImageView timeOfDayImage;
 
     private ReminderAdapter reminderAdapter;
+
+    String userName = "";
+    String userID="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,15 @@ public class Home extends AppCompatActivity {
         }*/
 
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
+
+        Cursor userId_cursor = db.rawQuery("SELECT user_id FROM nameTable WHERE user_status = 1", null);
+        if (userId_cursor != null && userId_cursor.moveToFirst()) {
+            int userNameIndex = userId_cursor.getColumnIndex("user_id");
+            if (userNameIndex != -1) {
+                userID = userId_cursor.getString(userNameIndex);
+                userId_cursor.close(); // Close the cursor when done
+            }
+        }
 
 
         // Assuming you have a TextView with the id "greetingText" in your layout
@@ -58,11 +73,40 @@ public class Home extends AppCompatActivity {
         //String confirmUser = getIntent().getStringExtra("confirmUser");
         //String confirmUser =
 
-        Cursor cursor = db.rawQuery("SELECT user_login FROM nameTable WHERE user_status = 1", null);
+
+        FloatingActionButton fab_AddReminder = findViewById(R.id.fabAddReminder);
+        FloatingActionButton fab_Logout = findViewById(R.id.fabLogout);
+
+        fab_AddReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent AddReminderIntent = new Intent(Home.this, Add_Reminder.class);
+                AddReminderIntent.putExtra("userID", userID);
+                startActivity(AddReminderIntent);
+
+
+
+            }
+        });
+
+        fab_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
+                db.execSQL("UPDATE loggedInTable SET loggedIn_status = 0 WHERE id=1");
+                db.execSQL("UPDATE nameTable SET user_status = 0 WHERE user_status = 1");
+
+                Intent LogoutIntent = new Intent(Home.this, Login.class);
+                startActivity(LogoutIntent);
+            }
+        });
+
+        Cursor cursor = db.rawQuery("SELECT user_name FROM nameTable WHERE user_status = 1", null);
         if (cursor != null && cursor.moveToFirst()) {
-            int userNameIndex = cursor.getColumnIndex("user_login");
+            int userNameIndex = cursor.getColumnIndex("user_name");
             if (userNameIndex != -1) {
-                String userName = cursor.getString(userNameIndex);
+                userName = cursor.getString(userNameIndex);
                 cursor.close(); // Close the cursor when done
                 if (userName != null) {
                     userNameText.setText("Hello, " + userName + "!");
@@ -89,6 +133,7 @@ public class Home extends AppCompatActivity {
 
         // Display reminders in the ListView
         displayReminders();
+
     }
 
     private void displayReminders() {
@@ -103,21 +148,22 @@ public class Home extends AppCompatActivity {
     private List<Reminder> getRemindersFromDatabase() {
         List<Reminder> reminders = new ArrayList<>();
 
-
         try {
-            Cursor cursor = db.rawQuery("SELECT * FROM reminderTable", null);
-                while (cursor.moveToNext()) {
-                    String reminderTitleIndex = String.valueOf(cursor.getColumnIndex("reminder_title"));
-                    String reminderDescriptonIndex = String.valueOf(cursor.getColumnIndex("reminder_descripton"));
-                    String reminderTimeIndex = String.valueOf(cursor.getColumnIndex("reminder_time"));
+            Cursor cursor = db.rawQuery("SELECT * FROM reminderTable WHERE user_id='" + userID + "'", null);
+            while (cursor.moveToNext()) {
+                String reminderTitle = cursor.getString(cursor.getColumnIndex("reminder_title"));
+                String reminderDescription = cursor.getString(cursor.getColumnIndex("reminder_description"));
+                String reminderTime = cursor.getString(cursor.getColumnIndex("reminder_time"));
 
-                    Reminder reminder = new Reminder(reminderTitleIndex, reminderDescriptonIndex, reminderTimeIndex);
-                    reminders.add(reminder);
-                }
+                Reminder reminder = new Reminder(reminderTitle, reminderDescription, reminderTime);
+                reminders.add(reminder);
+            }
         } catch (Exception e) {
             // Handle exceptions
         } finally {
-            db.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return reminders;

@@ -32,12 +32,18 @@ public class Add_Reminder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reminder);
 
+        Intent intent = getIntent();
+        String userID = intent.getStringExtra("userID");
+
+
         // Reference XML elements
         backButtonFrame = findViewById(R.id.backButtonFrame);
         descriptionInput = findViewById(R.id.descriptioninput);
         reminderInput = findViewById(R.id.reminderinput);
         selecttime = findViewById(R.id.selecttime);
         submitButton = findViewById(R.id.submitbtn);
+
+        db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
 
         // Set click listener for the back button
         backButtonFrame.setOnClickListener(new View.OnClickListener() {
@@ -60,9 +66,10 @@ public class Add_Reminder extends AppCompatActivity {
                 // Handle submit button click
                 // Add your logic here
 
-                db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-                db.execSQL("INSERT INTO reminderTable(user_name, reminder_title, reminder_description, reminder_time) VALUES('madeby.sol', '" + reminderInput.getText().toString() + "', '" + descriptionInput.getText().toString() + "', '" + selecttime.getText().toString() + "')");
-
+                db.execSQL("INSERT INTO reminderTable(user_id, reminder_title, reminder_description, reminder_time) VALUES('" + userID + "', '" + reminderInput.getText().toString() + "', '" + descriptionInput.getText().toString() + "', '" + selecttime.getText().toString() + "')");
+                Intent intent = new Intent(Add_Reminder.this,
+                        MainActivity.class);
+                startActivity(intent);
             }
         });
     }
