@@ -4,11 +4,13 @@ public class Reminder {
     private String reminderTitle;
     private String reminderDescription;
     private String reminderTime;
+    private String reminderID;
 
-    public Reminder(String reminderTitle, String reminderDescription, String reminderTime) {
+    public Reminder(String reminderTitle, String reminderDescription, String reminderTime, String reminderID) {
         this.reminderTitle = reminderTitle;
         this.reminderDescription = reminderDescription;
         this.reminderTime = reminderTime;
+        this.reminderID = reminderID;
     }
 
     public String getReminderTitle() {
@@ -21,6 +23,10 @@ public class Reminder {
 
     public String getReminderTime() {
         return reminderTime;
+    }
+
+    public String getReminderID() {
+        return reminderID;
     }
 
     // Getters and setters

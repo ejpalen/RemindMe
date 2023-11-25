@@ -64,6 +64,8 @@ public class CreateAccount extends AppCompatActivity {
 
                         db.close();
 
+                        Toast.makeText(CreateAccount.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+
                         Intent loginIntent = new Intent(CreateAccount.this, Login.class);
                         startActivity(loginIntent);
                     }

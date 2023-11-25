@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -20,13 +21,11 @@ import java.util.Calendar;
 
 public class Home extends AppCompatActivity {
 
-    TextView greetingText, userNameText;
+    TextView greetingText, userNameText, noReminders;
     Cursor cursor;
     SQLiteDatabase db;
     private ImageView timeOfDayImage;
-
     private ReminderAdapter reminderAdapter;
-
     String userName = "";
     String userID="";
 
@@ -34,6 +33,8 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        noReminders = findViewById(R.id.noRemindersText);
 
         /*Intent intent = getIntent();
         if (intent != null) {
@@ -85,8 +86,6 @@ public class Home extends AppCompatActivity {
                 AddReminderIntent.putExtra("userID", userID);
                 startActivity(AddReminderIntent);
 
-
-
             }
         });
 
@@ -96,6 +95,8 @@ public class Home extends AppCompatActivity {
                 db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
                 db.execSQL("UPDATE loggedInTable SET loggedIn_status = 0 WHERE id=1");
                 db.execSQL("UPDATE nameTable SET user_status = 0 WHERE user_status = 1");
+
+                Toast.makeText(Home.this, "You are now logged out", Toast.LENGTH_SHORT).show();
 
                 Intent LogoutIntent = new Intent(Home.this, Login.class);
                 startActivity(LogoutIntent);
@@ -121,18 +122,20 @@ public class Home extends AppCompatActivity {
 
         // Set the greeting and image based on the time of day
         if (hourOfDay >= 6 && hourOfDay < 12) {
-            greetingText.setText("Good Morning,");
-            timeOfDayImage.setImageResource(R.drawable.morning);
+            greetingText.setText("Good Evening,");
+            timeOfDayImage.setImageResource(R.drawable.evening);
         } else if (hourOfDay >= 12 && hourOfDay < 18) {
             greetingText.setText("Good Afternoon,");
             timeOfDayImage.setImageResource(R.drawable.afternoon);
         } else {
-            greetingText.setText("Good Evening,");
-            timeOfDayImage.setImageResource(R.drawable.evening);
+            greetingText.setText("Good Morning,");
+            timeOfDayImage.setImageResource(R.drawable.morning);
         }
 
         // Display reminders in the ListView
         displayReminders();
+
+
 
     }
 
@@ -143,21 +146,28 @@ public class Home extends AppCompatActivity {
 
         ListView remindersListView = findViewById(R.id.remindersListView);
         remindersListView.setAdapter(reminderAdapter);
+
     }
 
     private List<Reminder> getRemindersFromDatabase() {
         List<Reminder> reminders = new ArrayList<>();
+        noReminders.setVisibility(View.GONE);
 
         try {
             Cursor cursor = db.rawQuery("SELECT * FROM reminderTable WHERE user_id='" + userID + "'", null);
-            while (cursor.moveToNext()) {
+            if (cursor.moveToNext()) {
                 String reminderTitle = cursor.getString(cursor.getColumnIndex("reminder_title"));
                 String reminderDescription = cursor.getString(cursor.getColumnIndex("reminder_description"));
                 String reminderTime = cursor.getString(cursor.getColumnIndex("reminder_time"));
+                String reminderID = cursor.getString(cursor.getColumnIndex("reminder_id"));
 
-                Reminder reminder = new Reminder(reminderTitle, reminderDescription, reminderTime);
+                Reminder reminder = new Reminder(reminderTitle, reminderDescription, reminderTime, reminderID);
                 reminders.add(reminder);
+            }else {
+
+                noReminders.setVisibility(View.VISIBLE);
             }
+
         } catch (Exception e) {
             // Handle exceptions
         } finally {
