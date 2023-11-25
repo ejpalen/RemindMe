@@ -27,9 +27,6 @@
             android:name=".Add_Reminder"
             android:exported="true" />
         <activity
-            android:name=".Onboarding_UserInput"
-            android:exported="true" />
-        <activity
             android:name=".OnboardingScreen"
             android:exported="true" />
         <activity

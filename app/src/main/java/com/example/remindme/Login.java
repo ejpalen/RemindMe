@@ -56,6 +56,8 @@ public class Login extends AppCompatActivity {
                         db.execSQL("UPDATE loggedInTable SET loggedIn_status = 1 WHERE id=1");
                         db.execSQL("UPDATE nameTable SET user_status = 1 WHERE user_name = '"+ enteredUsername +"'");
 
+                        Toast.makeText(Login.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
+
                         Intent HomeIntent = new Intent(Login.this, Home.class);
                         //HomeIntent.putExtra("username", enteredUsername);
                         startActivity(HomeIntent);
