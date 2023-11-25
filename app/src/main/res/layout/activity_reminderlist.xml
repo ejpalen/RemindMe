@@ -1,61 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/border_form"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="20dp">
 
-                <ImageView
-                    android:id="@+id/expandIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:contentDescription="Expand Icon"
-                    android:src="@drawable/menu" />
+    <ImageView
+        android:id="@+id/expandIcon"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:contentDescription="Expand Icon"
+        android:src="@drawable/menu" />
 
-                <TextView
-                    android:id="@+id/reminderTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/syne"
-                    android:text="Reminder Title"
-                    android:textSize="21sp" />
+    <TextView
+        android:id="@+id/reminderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/syne_bold"
+        android:text="Reminder Title"
+        android:textColor="@color/black"
+        android:textSize="21sp" />
 
-                <LinearLayout
-                    android:layout_width="350dp"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:padding="8dp"
-                    tools:layout_editor_absoluteX="15dp"
-                    tools:layout_editor_absoluteY="186dp">
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="186dp">
 
-                    <ImageView
-                        android:id="@+id/alarm"
-                        android:layout_width="20dp"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="Alarm"
-                        android:src="@drawable/alarm" />
+        <ImageView
+            android:id="@+id/alarm"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:contentDescription="Alarm"
+            android:src="@drawable/alarm" />
 
-                    <TextView
-                        android:id="@+id/reminderTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/syne"
-                        android:text="10:00AM"
-                        android:textSize="13sp" />
-                </LinearLayout>
+        <TextView
+            android:id="@+id/reminderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/syne"
+            android:text="10:00AM"
+            android:textSize="13sp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/reminderDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/syne"
-                    android:text="Reminder Description"
-                    android:textSize="16sp" />
+    <TextView
+        android:id="@+id/reminderDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/syne"
+        android:text="Reminder Description"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
 
 </LinearLayout>

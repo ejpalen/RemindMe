@@ -27,11 +27,12 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
         TextView reminderDescription = convertView.findViewById(R.id.reminderDescription);
         TextView reminderTime = convertView.findViewById(R.id.reminderTime);
 
-        reminderTitle.setText(reminder.getreminderTitle());
-        reminderDescription.setText(reminder.getreminderDescription());
-        reminderTime.setText(reminder.getreminderTime());
+        reminderTitle.setText(reminder.getReminderTitle());
+        reminderDescription.setText(reminder.getReminderDescription());
+        reminderTime.setText(reminder.getReminderTime());
 
         return convertView;
     }
+
 }
 
