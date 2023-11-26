@@ -23,7 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements ReminderAdapter.OnCompleteListener{
 
     TextView greetingText, userNameText, noReminders;
     Cursor cursor;
@@ -35,6 +35,7 @@ public class Home extends AppCompatActivity {
 
     Spinner spinner;
     Boolean isOngoing = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,14 +143,14 @@ public class Home extends AppCompatActivity {
         }
 
         // Display reminders in the ListView
-        displayReminders();
+        displayReminders(isOngoing);
 
         spinner();
 
     }
 
-    private void displayReminders() {
-        List<Reminder> reminders = getRemindersFromDatabase();
+    private void displayReminders(boolean isOngoing) {
+        List<Reminder> reminders = getRemindersFromDatabase(isOngoing);
         reminderAdapter = new ReminderAdapter(this, reminders);
 
         ListView remindersListView = findViewById(R.id.remindersListView);
@@ -157,7 +158,13 @@ public class Home extends AppCompatActivity {
 
     }
 
-    private List<Reminder> getRemindersFromDatabase() {
+    public void onCompleteClicked(String reminderId) {
+        // Handle "Complete" button click
+        // Refresh the reminders and update the display
+        displayReminders(true);
+    }
+
+    private List<Reminder> getRemindersFromDatabase(boolean isOngoing) {
         List<Reminder> reminders = new ArrayList<>();
         noReminders.setVisibility(View.GONE);
 
@@ -180,8 +187,9 @@ public class Home extends AppCompatActivity {
                 String reminderDescription = cursor.getString(cursor.getColumnIndex("reminder_description"));
                 String reminderTime = cursor.getString(cursor.getColumnIndex("reminder_time"));
                 String reminderID = cursor.getString(cursor.getColumnIndex("reminder_id"));
+                String reminderStatus = cursor.getString(cursor.getColumnIndex("reminder_status"));
 
-                Reminder reminder = new Reminder(reminderTitle, reminderDescription, reminderTime, reminderID);
+                Reminder reminder = new Reminder(reminderTitle, reminderDescription, reminderTime, reminderID, reminderStatus);
                 reminders.add(reminder);
             }
 
@@ -226,7 +234,7 @@ public class Home extends AppCompatActivity {
                     isOngoing = true;
                 }
 
-                displayReminders();
+                displayReminders(isOngoing);
 
                 Log.d("HomeActivity", "Selected option: " + selectedOption);
                 Log.d("HomeActivity", "isOngoing: " + isOngoing);

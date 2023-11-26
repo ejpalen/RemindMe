@@ -9,6 +9,20 @@
     tools:context=".Home"
     tools:ignore="MissingConstraints">
 
+    <TextView
+        android:id="@+id/userNameText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/syne_bold"
+        android:text="Your Reminders"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backButtonFrame" />
+
     <FrameLayout
         android:id="@+id/backButtonFrame"
         android:layout_width="wrap_content"
@@ -54,13 +68,11 @@
         android:id="@+id/timeOfDayImage"
         android:layout_width="74dp"
         android:layout_height="69dp"
-        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="63dp"
         android:src="@drawable/morning"
-        app:layout_constraintBottom_toTopOf="@+id/remindersListView"
+        app:layout_constraintBottom_toBottomOf="@+id/backButtonFrame"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/backButtonFrame" />
 
 
     <ListView
@@ -68,7 +80,7 @@
         android:layout_width="0dp"
         android:layout_height="590dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:background="@android:color/transparent"
         android:divider="@android:color/transparent"
@@ -137,14 +149,16 @@
 
     <Spinner
         android:id="@+id/dropwdown"
-        android:layout_width="137dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="256dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="18dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/syne"
+        android:padding="5dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/userNameText2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeOfDayImage" />
+        app:layout_constraintTop_toTopOf="@+id/userNameText2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
