@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -49,6 +50,8 @@
             android:fontFamily="@font/syne"
             android:text="10:00AM"
             android:textSize="13sp" />
+
+
     </LinearLayout>
 
     <TextView
@@ -56,11 +59,80 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         android:fontFamily="@font/syne"
         android:text="Reminder Description"
         android:textColor="@color/black"
         android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/border_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/border_line"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="186dp">
+
+        <Button
+            android:id="@+id/btn_complete"
+            android:layout_width="111.5dp"
+            android:layout_height="32dp"
+
+            android:layout_marginRight="5dp"
+            android:background="@drawable/bg_btn_complete"
+            android:drawableStart="@drawable/complete_button_drawable"
+            android:fontFamily="@font/syne"
+            android:paddingRight="20dp"
+            android:text="Complete"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="111.5dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/bg_btn_edit"
+            android:drawableStart="@drawable/edit_button_drawable"
+            android:fontFamily="@font/syne"
+            android:paddingRight="34dp"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+
+
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="111.5dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_btn_delete"
+            android:drawableStart="@drawable/delete_button_drawable"
+            android:fontFamily="@font/syne"
+            android:paddingRight="24dp"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textColor="#F44336"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+
 
 
 </LinearLayout>
