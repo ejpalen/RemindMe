@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +32,9 @@ public class Home extends AppCompatActivity {
     private ReminderAdapter reminderAdapter;
     String userName = "";
     String userID="";
+
+    Spinner spinner;
+    Boolean isOngoing = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,8 @@ public class Home extends AppCompatActivity {
 
         // Assuming you have a TextView with the id "userNameText" in your layout
         userNameText = findViewById(R.id.userNameText);
+
+        spinner = findViewById(R.id.dropwdown);
 
         // Assuming you have an ImageView with the id "timeOfDayImage" in your layout
         timeOfDayImage = findViewById(R.id.timeOfDayImage);
@@ -135,13 +144,12 @@ public class Home extends AppCompatActivity {
         // Display reminders in the ListView
         displayReminders();
 
-
+        spinner();
 
     }
 
     private void displayReminders() {
         List<Reminder> reminders = getRemindersFromDatabase();
-        // Assuming you have a ListView with the id "remindersListView" in your layout
         reminderAdapter = new ReminderAdapter(this, reminders);
 
         ListView remindersListView = findViewById(R.id.remindersListView);
@@ -154,8 +162,20 @@ public class Home extends AppCompatActivity {
         noReminders.setVisibility(View.GONE);
 
         try {
-            Cursor cursor = db.rawQuery("SELECT * FROM reminderTable WHERE user_id='" + userID + "'", null);
-            if (cursor.moveToNext()) {
+            String query = "SELECT * FROM reminderTable WHERE user_id='" + userID + "'";
+            if (isOngoing) {
+                query += " AND reminder_status=0";
+            } else {
+                query += " AND reminder_status=1";
+            }
+
+            Cursor cursor = db.rawQuery(query, null);
+
+            reminders.clear();
+
+
+
+            while (cursor.moveToNext()) {
                 String reminderTitle = cursor.getString(cursor.getColumnIndex("reminder_title"));
                 String reminderDescription = cursor.getString(cursor.getColumnIndex("reminder_description"));
                 String reminderTime = cursor.getString(cursor.getColumnIndex("reminder_time"));
@@ -163,8 +183,9 @@ public class Home extends AppCompatActivity {
 
                 Reminder reminder = new Reminder(reminderTitle, reminderDescription, reminderTime, reminderID);
                 reminders.add(reminder);
-            }else {
+            }
 
+            if (reminders.isEmpty()) {
                 noReminders.setVisibility(View.VISIBLE);
             }
 
@@ -177,6 +198,45 @@ public class Home extends AppCompatActivity {
         }
 
         return reminders;
+    }
+
+    public void spinner (){
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.filter_options, android.R.layout.simple_spinner_item);
+
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+// Set a listener to handle spinner item selection
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle the selected item, for example, filter the RecyclerView based on the selection
+                String selectedOption = parentView.getItemAtPosition(position).toString();
+                // Add your logic to filter the RecyclerView based on the selected option
+                // You may need to update the data in the RecyclerView accordingly
+
+                if ("Completed".equals(selectedOption)) {
+                    isOngoing = false;
+                } else {
+                    isOngoing = true;
+                }
+
+                displayReminders();
+
+                Log.d("HomeActivity", "Selected option: " + selectedOption);
+                Log.d("HomeActivity", "isOngoing: " + isOngoing);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here if nothing is selected
+            }
+        });
     }
 
 }

@@ -6,11 +6,20 @@ public class Reminder {
     private String reminderTime;
     private String reminderID;
 
+    private boolean isActionMenuVisible = false;
     public Reminder(String reminderTitle, String reminderDescription, String reminderTime, String reminderID) {
         this.reminderTitle = reminderTitle;
         this.reminderDescription = reminderDescription;
         this.reminderTime = reminderTime;
         this.reminderID = reminderID;
+    }
+
+    public void toggleActionMenuVisibility() {
+        isActionMenuVisible = !isActionMenuVisible;
+    }
+
+    public boolean isActionMenuVisible() {
+        return isActionMenuVisible;
     }
 
     public String getReminderTitle() {

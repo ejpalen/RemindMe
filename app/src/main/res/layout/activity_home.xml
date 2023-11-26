@@ -65,10 +65,10 @@
 
     <ListView
         android:id="@+id/remindersListView"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="590dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="30dp"
         android:background="@android:color/transparent"
         android:divider="@android:color/transparent"
@@ -76,10 +76,8 @@
         android:foregroundGravity="center|center_horizontal"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeOfDayImage" />
-
+        app:layout_constraintTop_toBottomOf="@+id/dropwdown" />
 
     <TextView
         android:id="@+id/noRemindersText"
@@ -136,6 +134,17 @@
             app:backgroundTint="#39CE79" />
 
     </LinearLayout>
+
+    <Spinner
+        android:id="@+id/dropwdown"
+        android:layout_width="137dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="256dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeOfDayImage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
