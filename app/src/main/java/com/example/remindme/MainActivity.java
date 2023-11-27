@@ -2,6 +2,8 @@ package com.example.remindme;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 
 import android.content.Context;
 import android.content.Intent;
@@ -91,5 +93,23 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
+    private void scheduleNotification(Intent notificationIntent) {
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
 
+        long futureInMillis = System.currentTimeMillis() + 10000; // Adjust this time as needed
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Intent getNotification(String content) {
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("content", content);
+        return intent;
+    }
 }
