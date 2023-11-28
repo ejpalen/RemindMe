@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     //String packageName;
     Intent intent;
 
+    private MidnightResetBroadcast midnightResetBroadcast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction("android.intent.action.AIRPLANE_MODE");
         intentFilter.addAction("android.intent.action.BATTERY_CHANGED");
 
+        // Create and register the MidnightResetBroadcast receiver with the intent filter
+        midnightResetBroadcast = new MidnightResetBroadcast();
+        IntentFilter timeTickIntentFilter = new IntentFilter(Intent.ACTION_TIME_TICK);
+        registerReceiver(midnightResetBroadcast, timeTickIntentFilter);
+
         Cursor cursor = db.rawQuery("SELECT * FROM loggedInTable WHERE loggedIn_status = 1", null);
         if (cursor != null && cursor.getCount() > 0) {
             // If user_id = 1 exists in the database, start the Home activity
@@ -51,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Unregister the receiver when the activity is destroyed
+        unregisterReceiver(midnightResetBroadcast);
+
+        super.onDestroy();
     }
 
     /*public void broadcastIntent(){
