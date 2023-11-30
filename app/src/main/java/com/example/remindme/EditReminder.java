@@ -84,8 +84,8 @@ public class EditReminder extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(EditReminder.this,
                         MainActivity.class);
-                finish();
                 startActivity(intent);
+                finish();
 
             }
         });
@@ -107,6 +107,7 @@ public class EditReminder extends AppCompatActivity {
                 Intent intent = new Intent(EditReminder.this,
                         MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

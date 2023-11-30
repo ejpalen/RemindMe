@@ -24,9 +24,10 @@ public class Add_Reminder extends AppCompatActivity {
     EditText descriptionInput;
     EditText reminderInput;
     Button selecttime;
-    int hour, minute;
+    int hour =0, minute =0;
     SQLiteDatabase db;
     Button submitButton;
+    boolean isSelectTimeClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +53,18 @@ public class Add_Reminder extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Add_Reminder.this,
                         MainActivity.class);
-                finish();
                 startActivity(intent);
+                finish();
+            }
+        });
 
+
+
+        selecttime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(view);
+                isSelectTimeClicked = true;
             }
         });
 
@@ -65,11 +75,18 @@ public class Add_Reminder extends AppCompatActivity {
                 // Handle submit button click
                 // Add your logic here
 
-                db.execSQL("INSERT INTO reminderTable(user_id, reminder_title, reminder_description, reminder_time) VALUES('" + userID + "', '" + reminderInput.getText().toString() + "', '" + descriptionInput.getText().toString() + "', '" + selecttime.getText().toString() + "')");
-                Toast.makeText(Add_Reminder.this, "New Reminder Created", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Add_Reminder.this,
-                        Home.class);
-                startActivity(intent);
+                if (reminderInput.getText().toString().isEmpty() || descriptionInput.getText().toString().isEmpty() || isSelectTimeClicked == false) {
+                    Toast.makeText(Add_Reminder.this, "Please input title and description, and select time", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    db.execSQL("INSERT INTO reminderTable(user_id, reminder_title, reminder_description, reminder_time) VALUES('" + userID + "', '" + reminderInput.getText().toString() + "', '" + descriptionInput.getText().toString() + "', '" + selecttime.getText().toString() + "')");
+                    Toast.makeText(Add_Reminder.this, "New Reminder Created", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Add_Reminder.this,
+                            MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         });
     }

@@ -132,12 +132,13 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
             public void onClick(View view) {
                 getContext().startActivity(AddReminderIntent);
             }
+
         });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.execSQL("DELETE FROM reminderTable WHERE remin der_id = '" + reminder.getReminderID() + "'");
+                db.execSQL("DELETE FROM reminderTable WHERE reminder_id = '" + reminder.getReminderID() + "'");
                 remove(reminder);
                 Toast.makeText(getContext(), "Reminder is deleted", Toast.LENGTH_SHORT).show();
             }

@@ -46,7 +46,7 @@ public class Login extends AppCompatActivity {
                 String enteredPassword = login_password.getText().toString();
 
                 if (enteredUsername.isEmpty() || enteredPassword.isEmpty()) {
-                    Toast.makeText(Login.this, "Please enter both username and password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Please enter both name and password", Toast.LENGTH_SHORT).show();
                 } else {
                     // Check the entered username and password in your database
                     boolean isValidUser = checkUserCredentials(enteredUsername, enteredPassword);
@@ -58,12 +58,12 @@ public class Login extends AppCompatActivity {
 
                         Toast.makeText(Login.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
 
-                        Intent HomeIntent = new Intent(Login.this, Home.class);
+                        Intent HomeIntent = new Intent(Login.this, MainActivity.class);
                         //HomeIntent.putExtra("username", enteredUsername);
                         startActivity(HomeIntent);
                         finish(); // Finish the current activity to prevent going back to the login screen using the back button
                     } else {
-                        Toast.makeText(Login.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Invalid name or password", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

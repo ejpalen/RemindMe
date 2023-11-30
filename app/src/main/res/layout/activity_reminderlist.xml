@@ -109,7 +109,9 @@
             android:text="Complete"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            style="?android:attr/borderlessButtonStyle"
+            />
 
         <Button
             android:id="@+id/btn_edit"
@@ -121,7 +123,9 @@
             android:fontFamily="@font/syne_bold"
             android:text="Edit"
             android:textAllCaps="false"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            style="?android:attr/borderlessButtonStyle"
+            />
 
 
         <Button
@@ -134,7 +138,9 @@
             android:text="Delete"
             android:textAllCaps="false"
             android:textColor="#F44336"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            style="?android:attr/borderlessButtonStyle"
+            />
 
     </LinearLayout>
 
