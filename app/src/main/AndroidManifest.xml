@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.remindme"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -41,13 +42,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".MidnightResetBroadcast"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.TIME_TICK" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".NotificationReceiver"/>
+        <service
+            android:name=".MidnightResetJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>

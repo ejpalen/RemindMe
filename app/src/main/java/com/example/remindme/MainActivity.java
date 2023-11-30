@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -24,6 +25,12 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
+import android.os.PersistableBundle;
+import android.os.SystemClock;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -53,6 +60,67 @@ public class MainActivity extends AppCompatActivity {
     Boolean isOngoing = true;
 
     private MidnightResetBroadcast midnightResetBroadcast;
+    private static final int MIDNIGHT_RESET_JOB_ID = 1;
+
+    private void scheduleMidnightResetJob() {
+        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        ComponentName componentName = new ComponentName(this, MidnightResetJobService.class);
+        PersistableBundle bundle = new PersistableBundle();
+        bundle.putString("action", "midnight_reset"); // You can add additional data if needed
+
+        // Repeat the job every 24 hours with a window of 1 minute
+        JobInfo jobInfo = new JobInfo.Builder(MIDNIGHT_RESET_JOB_ID, componentName)
+                .setPeriodic(24 * 60 * 60 * 1000, 60 * 1000)
+                .setExtras(bundle)
+                .build();
+
+        jobScheduler.schedule(jobInfo);
+
+        // Save the jobId in shared preferences
+        saveJobId(MIDNIGHT_RESET_JOB_ID);
+    }
+
+    private long getMillisecondsUntilMidnight() {
+        Calendar midnight = Calendar.getInstance();
+        midnight.set(Calendar.HOUR_OF_DAY, 24);
+        midnight.set(Calendar.MINUTE, 0);
+        midnight.set(Calendar.SECOND, 0);
+        midnight.set(Calendar.MILLISECOND, 0);
+
+        long currentTime = System.currentTimeMillis();
+        long midnightTime = midnight.getTimeInMillis();
+
+        // If it's already past midnight, schedule for the next day
+        if (midnightTime <= currentTime) {
+            midnight.add(Calendar.DAY_OF_YEAR, 1);
+            midnightTime = midnight.getTimeInMillis();
+        }
+
+        return midnightTime - currentTime;
+    }
+
+    private void saveJobId(int jobId) {
+        // Save the jobId using SharedPreferences or any other persistent storage mechanism
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("midnight_reset_job_id", jobId);
+        editor.apply();
+    }
+
+    private void restoreScheduledJob() {
+        int jobId = getSavedJobId();
+        if (jobId != -1) {
+            // Job was previously scheduled, restore it
+            MidnightResetJobService.scheduleMidnightResetJob(getApplicationContext());
+        }
+    }
+
+    private int getSavedJobId() {
+        // Retrieve the saved jobId from SharedPreferences
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        return preferences.getInt("midnight_reset_job_id", -1);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +133,11 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction("android.intent.action.AIRPLANE_MODE");
         intentFilter.addAction("android.intent.action.BATTERY_CHANGED");
 
-        // Create and register the MidnightResetBroadcast receiver with the intent filter
-        midnightResetBroadcast = new MidnightResetBroadcast();
-        IntentFilter timeTickIntentFilter = new IntentFilter(Intent.ACTION_TIME_TICK);
-        registerReceiver(midnightResetBroadcast, timeTickIntentFilter);
+        // Schedule the job when the activity is created
+        MidnightResetJobService.scheduleMidnightResetJob(getApplicationContext());
+
+        // Attempt to restore the job if it was previously scheduled
+        restoreScheduledJob();
 
         Cursor cursor = db.rawQuery("SELECT * FROM loggedInTable WHERE loggedIn_status = 1", null);
         if (cursor != null && cursor.getCount() > 0) {
