@@ -24,8 +24,8 @@ public class OnboardingScreen extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent obsintent = new Intent(OnboardingScreen.this, Login.class);
-
                 startActivity(obsintent);
+                finish();
 
             }
         });
