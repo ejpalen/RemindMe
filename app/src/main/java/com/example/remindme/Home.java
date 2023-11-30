@@ -1,5 +1,6 @@
 package com.example.remindme;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -183,11 +184,11 @@ public class Home extends AppCompatActivity implements ReminderAdapter.OnComplet
 
 
             while (cursor.moveToNext()) {
-                String reminderTitle = cursor.getString(cursor.getColumnIndex("reminder_title"));
-                String reminderDescription = cursor.getString(cursor.getColumnIndex("reminder_description"));
-                String reminderTime = cursor.getString(cursor.getColumnIndex("reminder_time"));
-                String reminderID = cursor.getString(cursor.getColumnIndex("reminder_id"));
-                String reminderStatus = cursor.getString(cursor.getColumnIndex("reminder_status"));
+                @SuppressLint("Range") String reminderTitle = cursor.getString(cursor.getColumnIndex("reminder_title"));
+                @SuppressLint("Range") String reminderDescription = cursor.getString(cursor.getColumnIndex("reminder_description"));
+                @SuppressLint("Range") String reminderTime = cursor.getString(cursor.getColumnIndex("reminder_time"));
+                @SuppressLint("Range") String reminderID = cursor.getString(cursor.getColumnIndex("reminder_id"));
+                @SuppressLint("Range") String reminderStatus = cursor.getString(cursor.getColumnIndex("reminder_status"));
 
                 Reminder reminder = new Reminder(reminderTitle, reminderDescription, reminderTime, reminderID, reminderStatus);
                 reminders.add(reminder);

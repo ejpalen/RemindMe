@@ -2,6 +2,7 @@ package com.example.remindme;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +30,7 @@ public class EditReminder extends AppCompatActivity {
     int hour, minute;
     Button submitButton;
 
+    @SuppressLint("Range")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
