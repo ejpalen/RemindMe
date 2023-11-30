@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -32,6 +33,10 @@ public class Add_Reminder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reminder);
 
+        Intent intent = getIntent();
+        String userID = intent.getStringExtra("userID");
+
+
         // Reference XML elements
         backButtonFrame = findViewById(R.id.backButtonFrame);
         descriptionInput = findViewById(R.id.descriptioninput);
@@ -39,17 +44,17 @@ public class Add_Reminder extends AppCompatActivity {
         selecttime = findViewById(R.id.selecttime);
         submitButton = findViewById(R.id.submitbtn);
 
+        db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
+
         // Set click listener for the back button
         backButtonFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Add_Reminder.this,
                         MainActivity.class);
-
+                finish();
                 startActivity(intent);
 
-                // Handle back button click
-                finish(); // Close the current activity
             }
         });
 
@@ -60,9 +65,11 @@ public class Add_Reminder extends AppCompatActivity {
                 // Handle submit button click
                 // Add your logic here
 
-                db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-                db.execSQL("INSERT INTO reminderTable(user_name, reminder_title, reminder_description, reminder_time) VALUES('madeby.sol', '" + reminderInput.getText().toString() + "', '" + descriptionInput.getText().toString() + "', '" + selecttime.getText().toString() + "')");
-
+                db.execSQL("INSERT INTO reminderTable(user_id, reminder_title, reminder_description, reminder_time) VALUES('" + userID + "', '" + reminderInput.getText().toString() + "', '" + descriptionInput.getText().toString() + "', '" + selecttime.getText().toString() + "')");
+                Toast.makeText(Add_Reminder.this, "New Reminder Created", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Add_Reminder.this,
+                        Home.class);
+                startActivity(intent);
             }
         });
     }

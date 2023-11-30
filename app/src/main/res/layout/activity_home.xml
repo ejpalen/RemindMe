@@ -9,6 +9,20 @@
     tools:context=".Home"
     tools:ignore="MissingConstraints">
 
+    <TextView
+        android:id="@+id/userNameText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/syne_bold"
+        android:text="Your Reminders"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backButtonFrame" />
+
     <FrameLayout
         android:id="@+id/backButtonFrame"
         android:layout_width="wrap_content"
@@ -38,6 +52,7 @@
             android:fontFamily="@font/syne_bold"
             android:text="Hello, Aaron!"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.111"
@@ -48,80 +63,102 @@
 
     <!-- RecyclerView to display reminder cards -->
 
-    <LinearLayout
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginLeft="15dp"
-        android:background="@drawable/border_form"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeOfDayImage">
-
-        <ImageView
-            android:id="@+id/expandIcon"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:contentDescription="Expand Icon"
-            android:src="@drawable/menu" />
-
-        <TextView
-            android:id="@+id/reminderTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/syne"
-            android:text="Reminder Title"
-            android:textSize="21sp" />
-
-        <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            tools:layout_editor_absoluteX="15dp"
-            tools:layout_editor_absoluteY="186dp">
-
-            <ImageView
-                android:id="@+id/alarm"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="Alarm"
-                android:src="@drawable/alarm" />
-
-            <TextView
-                android:id="@+id/reminderTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/syne"
-                android:text="10:00AM"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/reminderDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/syne"
-            android:text="Reminder Description"
-            android:textSize="16sp" />
-
-    </LinearLayout>
 
     <ImageView
         android:id="@+id/timeOfDayImage"
         android:layout_width="74dp"
         android:layout_height="69dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginEnd="30dp"
         android:src="@drawable/morning"
-        app:layout_constraintStart_toEndOf="@+id/backButtonFrame"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/backButtonFrame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/backButtonFrame" />
+
+
+    <ListView
+        android:id="@+id/remindersListView"
+        android:layout_width="0dp"
+        android:layout_height="590dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="6dp"
+        android:foregroundGravity="center|center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dropwdown" />
+
+    <TextView
+        android:id="@+id/noRemindersText"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/syne_bold"
+        android:text="No Reminders Yet."
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeOfDayImage"
+
+
+        />
+
+
+    <LinearLayout
+        android:id="@+id/buttonsFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:clickable="true"
+            android:foregroundGravity="bottom|right"
+            app:backgroundTint="@color/white"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/logout" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddReminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:src="@drawable/add"
+            app:backgroundTint="#39CE79" />
+
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/dropwdown"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/syne"
+        android:padding="5dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/userNameText2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/userNameText2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

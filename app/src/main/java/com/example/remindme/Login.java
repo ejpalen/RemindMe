@@ -53,7 +53,10 @@ public class Login extends AppCompatActivity {
 
                     if (isValidUser) {
                         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-                        db.execSQL("UPDATE nameTable SET user_status = 1 WHERE user_login = '"+ enteredUsername +"'");
+                        db.execSQL("UPDATE loggedInTable SET loggedIn_status = 1 WHERE id=1");
+                        db.execSQL("UPDATE nameTable SET user_status = 1 WHERE user_name = '"+ enteredUsername +"'");
+
+                        Toast.makeText(Login.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
 
                         Intent HomeIntent = new Intent(Login.this, Home.class);
                         //HomeIntent.putExtra("username", enteredUsername);
@@ -70,7 +73,7 @@ public class Login extends AppCompatActivity {
     private boolean checkUserCredentials(String enteredUsername, String enteredPassword) {
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
 
-        String query = "SELECT * FROM nameTable WHERE user_login = ? AND user_password = ?";
+        String query = "SELECT * FROM nameTable WHERE user_name = ? AND user_pass = ?";
         String[] selectionArgs = {enteredUsername, enteredPassword};
 
         Cursor cursor = db.rawQuery(query, selectionArgs);
@@ -80,7 +83,7 @@ public class Login extends AppCompatActivity {
         if (cursor != null) {
             cursor.close();
         }
-        db.close();
+//        db.close();
 
         return isValid;
     }

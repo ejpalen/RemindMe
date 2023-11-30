@@ -5,30 +5,44 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements ReminderAdapter.OnCompleteListener{
 
-    TextView greetingText, userNameText, titleText, descriptionText;
+    TextView greetingText, userNameText, noReminders;
     Cursor cursor;
     SQLiteDatabase db;
     private ImageView timeOfDayImage;
-    private List<ReminderItem> reminderList;
+    private ReminderAdapter reminderAdapter;
+    String userName = "";
+    String userID="";
+
+    Spinner spinner;
+    Boolean isOngoing = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        noReminders = findViewById(R.id.noRemindersText);
 
         /*Intent intent = getIntent();
         if (intent != null) {
@@ -41,11 +55,23 @@ public class Home extends AppCompatActivity {
 
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
 
+        Cursor userId_cursor = db.rawQuery("SELECT user_id FROM nameTable WHERE user_status = 1", null);
+        if (userId_cursor != null && userId_cursor.moveToFirst()) {
+            int userNameIndex = userId_cursor.getColumnIndex("user_id");
+            if (userNameIndex != -1) {
+                userID = userId_cursor.getString(userNameIndex);
+                userId_cursor.close(); // Close the cursor when done
+            }
+        }
+
+
         // Assuming you have a TextView with the id "greetingText" in your layout
         greetingText = findViewById(R.id.greetingText);
 
         // Assuming you have a TextView with the id "userNameText" in your layout
         userNameText = findViewById(R.id.userNameText);
+
+        spinner = findViewById(R.id.dropwdown);
 
         // Assuming you have an ImageView with the id "timeOfDayImage" in your layout
         timeOfDayImage = findViewById(R.id.timeOfDayImage);
@@ -58,11 +84,40 @@ public class Home extends AppCompatActivity {
         //String confirmUser = getIntent().getStringExtra("confirmUser");
         //String confirmUser =
 
-        Cursor cursor = db.rawQuery("SELECT user_login FROM nameTable WHERE user_status = 1", null);
+
+        FloatingActionButton fab_AddReminder = findViewById(R.id.fabAddReminder);
+        FloatingActionButton fab_Logout = findViewById(R.id.fabLogout);
+
+        fab_AddReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent AddReminderIntent = new Intent(Home.this, Add_Reminder.class);
+                AddReminderIntent.putExtra("userID", userID);
+                startActivity(AddReminderIntent);
+
+            }
+        });
+
+        fab_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
+                db.execSQL("UPDATE loggedInTable SET loggedIn_status = 0 WHERE id=1");
+                db.execSQL("UPDATE nameTable SET user_status = 0 WHERE user_status = 1");
+
+                Toast.makeText(Home.this, "You are now logged out", Toast.LENGTH_SHORT).show();
+
+                Intent LogoutIntent = new Intent(Home.this, Login.class);
+                startActivity(LogoutIntent);
+            }
+        });
+
+        Cursor cursor = db.rawQuery("SELECT user_name FROM nameTable WHERE user_status = 1", null);
         if (cursor != null && cursor.moveToFirst()) {
-            int userNameIndex = cursor.getColumnIndex("user_login");
+            int userNameIndex = cursor.getColumnIndex("user_name");
             if (userNameIndex != -1) {
-                String userName = cursor.getString(userNameIndex);
+                userName = cursor.getString(userNameIndex);
                 cursor.close(); // Close the cursor when done
                 if (userName != null) {
                     userNameText.setText("Hello, " + userName + "!");
@@ -77,60 +132,119 @@ public class Home extends AppCompatActivity {
 
         // Set the greeting and image based on the time of day
         if (hourOfDay >= 6 && hourOfDay < 12) {
-            greetingText.setText("Good Morning,");
-            timeOfDayImage.setImageResource(R.drawable.morning);
+            greetingText.setText("Good Evening,");
+            timeOfDayImage.setImageResource(R.drawable.evening);
         } else if (hourOfDay >= 12 && hourOfDay < 18) {
             greetingText.setText("Good Afternoon,");
             timeOfDayImage.setImageResource(R.drawable.afternoon);
         } else {
-            greetingText.setText("Good Evening,");
-            timeOfDayImage.setImageResource(R.drawable.evening);
-        }
-    }
-
-    // ReminderItem class with due date
-
-    private static class ReminderItem {
-        private String reminderTitle;
-        private String reminderDescription;
-        private String reminderTime;
-
-        ReminderItem(String reminderTitle, String reminderDescription, String reminderTime) {
-            this.reminderTitle = reminderTitle;
-            this.reminderDescription = reminderDescription;
-            this.reminderTime = reminderTime;
+            greetingText.setText("Good Morning,");
+            timeOfDayImage.setImageResource(R.drawable.morning);
         }
 
-        // Getter methods for title, description, and due date
+        // Display reminders in the ListView
+        displayReminders(isOngoing);
+
+        spinner();
+
     }
 
-    // Update onBindViewHolder in ReminderAdapter to handle actions
-    public void onBindViewHolder(ReminderViewHolder holder, int position) {
-        ReminderItem item = reminderList.get(position);
-        holder.reminderTitle.setText(item.reminderTitle);
-        holder.reminderDescription.setText(item.reminderDescription);
-        holder.reminderTime.setText(item.reminderTime);
+    private void displayReminders(boolean isOngoing) {
+        List<Reminder> reminders = getRemindersFromDatabase(isOngoing);
+        reminderAdapter = new ReminderAdapter(this, reminders);
 
-        // Set click listener for the expand icon
-        holder.expandIcon.setOnClickListener(v -> {
-            // Toggle visibility of action menu
+        ListView remindersListView = findViewById(R.id.remindersListView);
+        remindersListView.setAdapter(reminderAdapter);
 
+    }
+
+    public void onCompleteClicked(String reminderId) {
+        // Handle "Complete" button click
+        // Refresh the reminders and update the display
+        displayReminders(true);
+    }
+
+    private List<Reminder> getRemindersFromDatabase(boolean isOngoing) {
+        List<Reminder> reminders = new ArrayList<>();
+        noReminders.setVisibility(View.GONE);
+
+        try {
+            String query = "SELECT * FROM reminderTable WHERE user_id='" + userID + "'";
+            if (isOngoing) {
+                query += " AND reminder_status=0";
+            } else {
+                query += " AND reminder_status=1";
+            }
+
+            Cursor cursor = db.rawQuery(query, null);
+
+            reminders.clear();
+
+
+
+            while (cursor.moveToNext()) {
+                String reminderTitle = cursor.getString(cursor.getColumnIndex("reminder_title"));
+                String reminderDescription = cursor.getString(cursor.getColumnIndex("reminder_description"));
+                String reminderTime = cursor.getString(cursor.getColumnIndex("reminder_time"));
+                String reminderID = cursor.getString(cursor.getColumnIndex("reminder_id"));
+                String reminderStatus = cursor.getString(cursor.getColumnIndex("reminder_status"));
+
+                Reminder reminder = new Reminder(reminderTitle, reminderDescription, reminderTime, reminderID, reminderStatus);
+                reminders.add(reminder);
+            }
+
+            if (reminders.isEmpty()) {
+                noReminders.setVisibility(View.VISIBLE);
+            }
+
+        } catch (Exception e) {
+            // Handle exceptions
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return reminders;
+    }
+
+    public void spinner (){
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.filter_options, android.R.layout.simple_spinner_item);
+
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+// Set a listener to handle spinner item selection
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle the selected item, for example, filter the RecyclerView based on the selection
+                String selectedOption = parentView.getItemAtPosition(position).toString();
+                // Add your logic to filter the RecyclerView based on the selected option
+                // You may need to update the data in the RecyclerView accordingly
+
+                if ("Completed".equals(selectedOption)) {
+                    isOngoing = false;
+                } else {
+                    isOngoing = true;
+                }
+
+                displayReminders(isOngoing);
+
+                Log.d("HomeActivity", "Selected option: " + selectedOption);
+                Log.d("HomeActivity", "isOngoing: " + isOngoing);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here if nothing is selected
+            }
         });
     }
 
-    // Inner class for ViewHolder
-    class ReminderViewHolder extends RecyclerView.ViewHolder {
-        TextView reminderTitle;
-        TextView reminderDescription;
-        TextView reminderTime;
-        ImageView expandIcon;
-
-        ReminderViewHolder(View itemView) {
-            super(itemView);
-            reminderTitle = itemView.findViewById(R.id.reminderTitle);
-            reminderDescription = itemView.findViewById(R.id.reminderDescription);
-            reminderTime = itemView.findViewById(R.id.reminderTime);
-            expandIcon = itemView.findViewById(R.id.expandIcon);
-        }
-    }
 }

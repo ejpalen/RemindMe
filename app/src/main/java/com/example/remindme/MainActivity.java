@@ -2,6 +2,8 @@ package com.example.remindme;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,44 +26,45 @@ public class MainActivity extends AppCompatActivity {
     //String packageName;
     Intent intent;
 
+    private MidnightResetBroadcast midnightResetBroadcast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//      setContentView(R.layout.activity_onboarding_screen);
-//      setContentView(R.layout.activity_onboarding_user_input);
         setContentView(R.layout.activity_main);
-//      Intent intent = new Intent(MainActivity.this,OnboardingScreen.class);
 
         createUserDB();
-        /*saveUserReminder();
-        //saveUserTime();
-        deleteUserReminder();
-        editUserReminder();
-        statusUserReminder();*/
 
         //packageName = getApplicationContext().getPackageName().concat(".");
         //broadcastIntent();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.intent.action.AIRPLANE_MODE");
         intentFilter.addAction("android.intent.action.BATTERY_CHANGED");
-        //MyReceiver myReceiver = new MyReceiver();
-        //registerReceiver(myReceiver,intentFilter );
 
-//        Cursor cursor = db.rawQuery("SELECT * FROM nameTable WHERE user_id = 1", null);
-//        if (cursor != null && cursor.getCount() > 0) {
-//            // If user_id = 1 exists in the database, start the Home activity
-//            Intent intent = new Intent(MainActivity.this, Home.class);
-//            startActivity(intent);
-//        } else {
-//            // If user_id = 1 does not exist in the database, start the OnboardingScreen activity
-//            Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
-//            startActivity(intent);
-//        }
+        // Create and register the MidnightResetBroadcast receiver with the intent filter
+        midnightResetBroadcast = new MidnightResetBroadcast();
+        IntentFilter timeTickIntentFilter = new IntentFilter(Intent.ACTION_TIME_TICK);
+        registerReceiver(midnightResetBroadcast, timeTickIntentFilter);
 
-        Intent intent = new Intent(MainActivity.this, Add_Reminder.class);
-        startActivity(intent);
+        Cursor cursor = db.rawQuery("SELECT * FROM loggedInTable WHERE loggedIn_status = 1", null);
+        if (cursor != null && cursor.getCount() > 0) {
+            // If user_id = 1 exists in the database, start the Home activity
+            Intent intent = new Intent(MainActivity.this, Home.class);
+            startActivity(intent);
+        } else {
+            // If user_id = 1 does not exist in the database, start the OnboardingScreen activity
+            Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
+            startActivity(intent);
+        }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Unregister the receiver when the activity is destroyed
+        unregisterReceiver(midnightResetBroadcast);
+
+        super.onDestroy();
     }
 
     /*public void broadcastIntent(){
@@ -82,14 +85,17 @@ public class MainActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
 
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-        //db.execSQL("DROP TABLE IF EXISTS nameTable;");
-        db.execSQL("DROP TABLE IF EXISTS reminderTable;");
-        db.execSQL("CREATE TABLE IF NOT EXISTS nameTable (user_id INTEGER PRIMARY KEY, user_name TEXT );");
-        db.execSQL("CREATE TABLE IF NOT EXISTS reminderTable (reminder_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT, reminder_title TEXT, reminder_descripton TEXT, reminder_time TIME, reminder_status BOOLEAN not null default 0);");
+//        db.execSQL("DROP TABLE IF EXISTS nameTable;");
+//        db.execSQL("DROP TABLE IF EXISTS loggedInTable;");
+//        db.execSQL("DROP TABLE IF EXISTS reminderTable;");
+        db.execSQL("CREATE TABLE IF NOT EXISTS nameTable (user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT, user_pass TEXT, user_status BOOLEAN not null default 0);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS loggedInTable (id INTEGER PRIMARY KEY, loggedIn_status BOOLEAN not null default 0);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS reminderTable (reminder_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id TEXT, reminder_title TEXT, reminder_description TEXT, reminder_time TIME, reminder_status BOOLEAN not null default 0);");
 
-        db.execSQL("INSERT INTO reminderTable(user_name, reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('madeby.sol', 'Go to the gym', 'Meetup with Ej and Dan', '9:30', 0);");
-        db.execSQL("INSERT INTO reminderTable(user_name, reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('madeby.sol', 'UMAK Nexus App', 'Create the Shopping Page', '10:00', 0);");
-        db.execSQL("INSERT INTO reminderTable(user_name, reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('madeby.sol', 'Bring Laptop', 'Overnight with the team', '8:15', 0);");
+        db.execSQL("INSERT OR IGNORE INTO loggedInTable(id, loggedIn_status) VALUES(1,0);");
+//        db.execSQL("INSERT OR IGNORE INTO reminderTable(user_name, reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('madeby.sol', 'Go to the gym', 'Meetup with Ej and Dan', '9:30', 0);");
+//        db.execSQL("INSERT OR IGNORE INTO reminderTable(user_name, reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('madeby.sol', 'UMAK Nexus App', 'Create the Shopping Page', '10:00', 0);");
+//        db.execSQL("INSERT OR IGNORE INTO reminderTable(user_name, reminder_title, reminder_descripton, reminder_time, reminder_status) VALUES('madeby.sol', 'Bring Laptop', 'Overnight with the team', '8:15', 0);");
 
 
     }
@@ -101,5 +107,23 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
+    private void scheduleNotification(Intent notificationIntent) {
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
 
+        long futureInMillis = System.currentTimeMillis() + 10000; // Adjust this time as needed
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Intent getNotification(String content) {
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("content", content);
+        return intent;
+    }
 }

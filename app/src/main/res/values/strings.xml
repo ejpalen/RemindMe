@@ -17,4 +17,10 @@
        Or <u>Login To Your Account?</u>
     </string>
 
+    <!-- Add this code inside your <resources> element -->
+    <string-array name="filter_options">
+        <item>Ongoing</item>
+        <item>Completed</item>
+    </string-array>
+
 </resources>

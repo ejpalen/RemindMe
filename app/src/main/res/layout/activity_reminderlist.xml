@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_form"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/expandIcon"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:contentDescription="Expand Icon"
+        android:src="@drawable/menu" />
+
+    <TextView
+        android:id="@+id/reminderTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/syne_bold"
+        android:text="Reminder Title"
+        android:textColor="@color/black"
+        android:textSize="21sp" />
+
+    <TextView
+        android:id="@+id/status_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/syne_bold"
+        android:text="Ongoing Task"
+        android:textColor="#FF9D3C"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="186dp">
+
+        <ImageView
+            android:id="@+id/alarm"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:contentDescription="Alarm"
+            android:src="@drawable/alarm" />
+
+        <TextView
+            android:id="@+id/reminderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:fontFamily="@font/syne"
+            android:text="10:00AM"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/reminderDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/syne"
+        android:text="Reminder Description"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/border_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        app:srcCompat="@drawable/border_line" />
+
+    <LinearLayout
+        android:id="@+id/buttons_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="186dp">
+
+        <Button
+            android:id="@+id/btn_complete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_complete"
+            android:fontFamily="@font/syne_bold"
+            android:text="Complete"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_edit"
+            android:fontFamily="@font/syne_bold"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_delete"
+            android:fontFamily="@font/syne_bold"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textColor="#F44336"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
