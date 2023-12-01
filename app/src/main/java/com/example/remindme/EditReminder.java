@@ -30,6 +30,8 @@ public class EditReminder extends AppCompatActivity {
     int hour, minute;
     Button submitButton;
 
+    boolean isSelectTimeClicked = false;
+
     @SuppressLint("Range")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +79,6 @@ public class EditReminder extends AppCompatActivity {
 
         selecttime.setText(String.format(Locale.getDefault(), "%02d:%02d", hours, minutes));
 
-
         // Set click listener for the back button
         backButtonFrame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,24 +91,38 @@ public class EditReminder extends AppCompatActivity {
             }
         });
 
+        selecttime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(view);
+                isSelectTimeClicked = true;
+            }
+        });
+
         // Set click listener for the submit button
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Handle submit button click
 
-                db.execSQL("UPDATE reminderTable SET reminder_title = '" + reminderInput.getText().toString() + "', " +
-                        "reminder_description = '" + descriptionInput.getText().toString() + "', " +
-                        "reminder_time = '" + selecttime.getText().toString() + "' " +
-                        "WHERE reminder_id = '" + reminderID + "'");
+                if (reminderInput.getText().toString().isEmpty() || descriptionInput.getText().toString().isEmpty() || isSelectTimeClicked == false) {
+                    Toast.makeText(EditReminder.this, "Please input title and description, and select time", Toast.LENGTH_SHORT).show();
+                }
+                else {
 
-                Toast.makeText(EditReminder.this, "Reminder has been edited", Toast.LENGTH_SHORT).show();
+                    db.execSQL("UPDATE reminderTable SET reminder_title = '" + reminderInput.getText().toString() + "', " +
+                            "reminder_description = '" + descriptionInput.getText().toString() + "', " +
+                            "reminder_time = '" + selecttime.getText().toString() + "' " +
+                            "WHERE reminder_id = '" + reminderID + "'");
 
+                    Toast.makeText(EditReminder.this, "Reminder has been edited", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(EditReminder.this,
-                        MainActivity.class);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(EditReminder.this,
+                            MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
             }
         });
     }

@@ -129,6 +129,12 @@ public class MainActivity extends AppCompatActivity {
 
         createUserDB();
 
+
+        // Register the receiver in the onCreate method
+        midnightResetBroadcast = new MidnightResetBroadcast();
+        IntentFilter ResetIntentFilter = new IntentFilter(Intent.ACTION_TIME_TICK);
+        registerReceiver(midnightResetBroadcast, ResetIntentFilter);
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.intent.action.AIRPLANE_MODE");
         intentFilter.addAction("android.intent.action.BATTERY_CHANGED");
@@ -177,11 +183,6 @@ public class MainActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
-        // Get the user name from the input screen (assuming it's passed through Intent)
-        //String confirmUser = getIntent().getStringExtra("confirmUser");
-        //String confirmUser =
-
-
         FloatingActionButton fab_AddReminder = findViewById(R.id.fabAddReminder);
         FloatingActionButton fab_Logout = findViewById(R.id.fabLogout);
 
@@ -226,8 +227,6 @@ public class MainActivity extends AppCompatActivity {
             // Handle the case where the cursor is null or empty
             // You might want to set a default value for the username or show an error message
         }
-
-
         // Set the greeting and image based on the time of day
         if (hourOfDay >= 6 && hourOfDay < 12) {
             greetingText.setText("Good Morning,");
@@ -249,11 +248,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        // Unregister the receiver when the activity is destroyed
-        unregisterReceiver(midnightResetBroadcast);
+        // Check if the receiver is registered before unregistering
+        if (midnightResetBroadcast != null) {
+            unregisterReceiver(midnightResetBroadcast);
+        }
 
         super.onDestroy();
     }
+
 
     public void createUserDB(){
         userName=findViewById(R.id.createaccount_name_tv);
