@@ -60,72 +60,21 @@ public class MainActivity extends AppCompatActivity {
     Boolean isOngoing = true;
 
     private MidnightResetBroadcast midnightResetBroadcast;
-    private static final int MIDNIGHT_RESET_JOB_ID = 1;
-
-    private void scheduleMidnightResetJob() {
-        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
-        ComponentName componentName = new ComponentName(this, MidnightResetJobService.class);
-        PersistableBundle bundle = new PersistableBundle();
-        bundle.putString("action", "midnight_reset"); // You can add additional data if needed
-
-        // Repeat the job every 24 hours with a window of 1 minute
-        JobInfo jobInfo = new JobInfo.Builder(MIDNIGHT_RESET_JOB_ID, componentName)
-                .setPeriodic(24 * 60 * 60 * 1000, 60 * 1000)
-                .setExtras(bundle)
-                .build();
-
-        jobScheduler.schedule(jobInfo);
-
-        // Save the jobId in shared preferences
-        saveJobId(MIDNIGHT_RESET_JOB_ID);
-    }
-
-    private long getMillisecondsUntilMidnight() {
-        Calendar midnight = Calendar.getInstance();
-        midnight.set(Calendar.HOUR_OF_DAY, 24);
-        midnight.set(Calendar.MINUTE, 0);
-        midnight.set(Calendar.SECOND, 0);
-        midnight.set(Calendar.MILLISECOND, 0);
-
-        long currentTime = System.currentTimeMillis();
-        long midnightTime = midnight.getTimeInMillis();
-
-        // If it's already past midnight, schedule for the next day
-        if (midnightTime <= currentTime) {
-            midnight.add(Calendar.DAY_OF_YEAR, 1);
-            midnightTime = midnight.getTimeInMillis();
-        }
-
-        return midnightTime - currentTime;
-    }
-
-    private void saveJobId(int jobId) {
-        // Save the jobId using SharedPreferences or any other persistent storage mechanism
-        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("midnight_reset_job_id", jobId);
-        editor.apply();
-    }
-
-    private void restoreScheduledJob() {
-        int jobId = getSavedJobId();
-        if (jobId != -1) {
-            // Job was previously scheduled, restore it
-            MidnightResetJobService.scheduleMidnightResetJob(getApplicationContext());
-        }
-    }
-
-    private int getSavedJobId() {
-        // Retrieve the saved jobId from SharedPreferences
-        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-        return preferences.getInt("midnight_reset_job_id", -1);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        scheduleMidnightResetAlarm();
+
+
+        Intent notifIntent = getIntent();
+        int hour = notifIntent.getIntExtra("hour", 0);
+        int minute = notifIntent.getIntExtra("minute", 0);
+        String title = notifIntent.getStringExtra("title");
+        String description = notifIntent.getStringExtra("description");
+        scheduleNotifications(hour, minute, title, description);
 
         createUserDB();
 
@@ -133,11 +82,6 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction("android.intent.action.AIRPLANE_MODE");
         intentFilter.addAction("android.intent.action.BATTERY_CHANGED");
 
-        // Schedule the job when the activity is created
-        MidnightResetJobService.scheduleMidnightResetJob(getApplicationContext());
-
-        // Attempt to restore the job if it was previously scheduled
-        restoreScheduledJob();
 
         Cursor cursor = db.rawQuery("SELECT * FROM loggedInTable WHERE loggedIn_status = 1", null);
         if (cursor != null && cursor.getCount() > 0) {
@@ -245,6 +189,62 @@ public class MainActivity extends AppCompatActivity {
 
         spinner();
 
+
+
+    }
+
+    // Inside your MainActivity class
+
+    @SuppressLint("ScheduleExactAlarm")
+    private void scheduleMidnightResetAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        // Create an intent for your MidnightResetBroadcast
+        Intent midnightIntent = new Intent(this, MidnightResetBroadcast.class);
+
+        // Add the FLAG_IMMUTABLE flag to the PendingIntent
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, midnightIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        // Set the time for midnight
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        // If the current time is already past midnight, set the alarm for the next day
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        // Schedule the one-time alarm
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+    @SuppressLint("ScheduleExactAlarm")
+    private void scheduleNotifications(int hour, int minute, String title, String description) {
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent notificationIntent = new Intent(this, NotificationReceiver.class);
+        notificationIntent.putExtra("title", title);
+        notificationIntent.putExtra("description", description);
+
+        // Add the FLAG_IMMUTABLE flag to the PendingIntent
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        // Set the time for midnight
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+
+        // If the current time is already past midnight, set the alarm for the next day
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        // Schedule the one-time alarm
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     @Override
@@ -277,27 +277,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setMessage(message);
         builder.show();
     }
-
-    private void scheduleNotification(Intent notificationIntent) {
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this,
-                0,
-                notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        long futureInMillis = System.currentTimeMillis() + 10000; // Adjust this time as needed
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
-    }
-
-    private Intent getNotification(String content) {
-        Intent intent = new Intent(this, NotificationReceiver.class);
-        intent.putExtra("content", content);
-        return intent;
-    }
-
 
     private void displayReminders(boolean isOngoing) {
         List<Reminder> reminders = getRemindersFromDatabase(isOngoing);

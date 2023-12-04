@@ -81,8 +81,14 @@ public class Add_Reminder extends AppCompatActivity {
                 else{
                     db.execSQL("INSERT INTO reminderTable(user_id, reminder_title, reminder_description, reminder_time) VALUES('" + userID + "', '" + reminderInput.getText().toString() + "', '" + descriptionInput.getText().toString() + "', '" + selecttime.getText().toString() + "')");
                     Toast.makeText(Add_Reminder.this, "New Reminder Created", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(Add_Reminder.this,
                             MainActivity.class);
+
+                    intent.putExtra("title", reminderInput.getText().toString());
+                    intent.putExtra("description", descriptionInput.getText().toString());
+                    intent.putExtra("hour", hour);
+                    intent.putExtra("minute", minute);
                     startActivity(intent);
                     finish();
                 }
