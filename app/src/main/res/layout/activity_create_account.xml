@@ -54,7 +54,7 @@
             android:fontFamily="@font/syne"
             android:foregroundGravity="center"
             android:gravity="center"
-            android:hint="Enter Nickname"
+            android:hint="Enter Username"
             android:inputType="text"
             android:textColor="@color/black"
             android:textSize="14sp"

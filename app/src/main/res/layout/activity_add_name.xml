@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/onboarding_screen_background"
-    tools:context=".Login"
+    tools:context=".Add_Name"
     tools:layout_editor_absoluteY="25dp">
 
     <LinearLayout
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/syne_bold"
-            android:text="Login to your account"
+            android:text="What should we call you?"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="24sp"
@@ -45,26 +45,7 @@
             tools:layout_editor_absoluteY="290dp" />
 
         <EditText
-            android:id="@+id/login_name_tv"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/border"
-            android:ems="10"
-            android:fontFamily="@font/syne"
-            android:foregroundGravity="center"
-            android:gravity="center"
-            android:hint="Enter Username"
-            android:inputType="text"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:circularflow_defaultRadius="40dp"
-            app:circularflow_radiusInDP="40dp"
-            tools:layout_editor_absoluteX="46dp"
-            tools:layout_editor_absoluteY="334dp" />
-
-        <EditText
-            android:id="@+id/login_password_tv"
+            android:id="@+id/user_name_tv"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -73,40 +54,28 @@
             android:fontFamily="@font/syne"
             android:foregroundGravity="center"
             android:gravity="center"
-            android:hint="Enter Password"
+            android:hint="Enter Nickname"
             android:inputType="text"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:circularflow_defaultRadius="40dp"
             app:circularflow_radiusInDP="40dp"
             tools:layout_editor_absoluteX="46dp"
-            tools:layout_editor_absoluteY="407dp" />
+            tools:layout_editor_absoluteY="334dp" />
 
         <Button
-            android:id="@+id/login_btn"
+            android:id="@+id/save_btn"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_btn_complete"
             android:backgroundTint="#39CE79"
             android:fontFamily="@font/syne_bold"
-            android:text="LOG IN"
+            android:text="SAVE"
             android:textColor="@color/white"
             tools:layout_editor_absoluteX="46dp"
             tools:layout_editor_absoluteY="479dp"
             style="?android:attr/borderlessButtonStyle"/>
-
-        <TextView
-            android:id="@+id/loginCreateAccount_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/syne_bold"
-            android:text="@string/createAccountText"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            tools:layout_editor_absoluteX="102dp"
-            tools:layout_editor_absoluteY="542dp" />
 
     </LinearLayout>
 
