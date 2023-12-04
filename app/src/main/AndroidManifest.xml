@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.remindme"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.remindme" >
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +18,10 @@
         android:roundIcon="@mipmap/remindme_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RemindMe"
-        tools:targetApi="34">
+        tools:targetApi="34" >
+        <activity
+            android:name=".Add_Name"
+            android:exported="false" />
         <activity
             android:name=".CreateAccount"
             android:exported="false" />
@@ -36,16 +39,18 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver android:name=".NotificationReceiver" />
-        <receiver android:name=".MidnightResetBroadcast"
-            android:exported="false">
+        <receiver
+            android:name=".MidnightResetBroadcast"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.TIME_TICK" />
             </intent-filter>
