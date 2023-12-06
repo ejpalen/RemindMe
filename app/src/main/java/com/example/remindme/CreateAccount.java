@@ -49,7 +49,6 @@ public class CreateAccount extends AppCompatActivity {
                 // Check if account name and password are not empty
                 if (userName.isEmpty() || userPassword.isEmpty()) {
                     // Display an error message or prompt the user to fill in both fields
-                    // For example, show a Toast message
                     Toast.makeText(CreateAccount.this, "Please enter both account name and password", Toast.LENGTH_SHORT).show();
                 } else {
                     // If both fields are filled, check if the user exists in the database

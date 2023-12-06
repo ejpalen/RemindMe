@@ -42,12 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
     EditText userName, reminderTitle, reminderDescription;
     Button saveReminder, statusReminder, editReminder, deleteReminder, reminderTime;
-    //int hour, minute;
     SQLiteDatabase db;
     Cursor cursor;
     AlertDialog.Builder builder;
     StringBuffer buffer;
-    //String packageName;
     Intent intent;
 
     TextView greetingText, userNameText, noReminders;
@@ -87,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         if (cursor != null && cursor.getCount() > 0) {
 
         } else {
-            // If user_id = 1 does not exist in the database, start the OnboardingScreen activity
             Intent intent = new Intent(MainActivity.this, OnboardingScreen.class);
             startActivity(intent);
             finish();
@@ -106,25 +103,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // Assuming you have a TextView with the id "greetingText" in your layout
         greetingText = findViewById(R.id.greetingText);
-
-        // Assuming you have a TextView with the id "userNameText" in your layout
         userNameText = findViewById(R.id.userNameText);
-
         spinner = findViewById(R.id.dropwdown);
-
-        // Assuming you have an ImageView with the id "timeOfDayImage" in your layout
         timeOfDayImage = findViewById(R.id.timeOfDayImage);
 
         // Get the current time
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-
-        // Get the user name from the input screen (assuming it's passed through Intent)
-        //String confirmUser = getIntent().getStringExtra("confirmUser");
-        //String confirmUser =
-
 
         FloatingActionButton fab_AddReminder = findViewById(R.id.fabAddReminder);
         FloatingActionButton fab_Logout = findViewById(R.id.fabLogout);
@@ -132,11 +118,9 @@ public class MainActivity extends AppCompatActivity {
         fab_AddReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent AddReminderIntent = new Intent(MainActivity.this, Add_Reminder.class);
                 AddReminderIntent.putExtra("userID", userID);
                 startActivity(AddReminderIntent);
-
             }
         });
 
@@ -168,9 +152,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             // Handle the case where the cursor is null or empty
-            // You might want to set a default value for the username or show an error message
         }
-
 
         // Set the greeting and image based on the time of day
         if (hourOfDay >= 6 && hourOfDay < 12) {
@@ -186,23 +168,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Display reminders in the ListView
         displayReminders(isOngoing);
-
         spinner();
-
-
-
     }
-
-    // Inside your MainActivity class
 
     @SuppressLint("ScheduleExactAlarm")
     private void scheduleMidnightResetAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        // Create an intent for your MidnightResetBroadcast
         Intent midnightIntent = new Intent(this, MidnightResetBroadcast.class);
-
-        // Add the FLAG_IMMUTABLE flag to the PendingIntent
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, midnightIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // Set the time for midnight
@@ -229,7 +202,6 @@ public class MainActivity extends AppCompatActivity {
         notificationIntent.putExtra("title", title);
         notificationIntent.putExtra("description", description);
 
-        // Add the FLAG_IMMUTABLE flag to the PendingIntent
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // Set the time for midnight
@@ -265,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
         userName=findViewById(R.id.createaccount_name_tv);
         reminderTitle=findViewById(R.id.reminderinput);
         reminderDescription=findViewById(R.id.descriptioninput);
-        //reminderTime=(R.id.editTextTime);
         saveReminder=findViewById(R.id.submitbtn);
 
         builder = new AlertDialog.Builder(this);
@@ -315,8 +286,6 @@ public class MainActivity extends AppCompatActivity {
 
             reminders.clear();
 
-
-
             while (cursor.moveToNext()) {
                 @SuppressLint("Range") String reminderTitle = cursor.getString(cursor.getColumnIndex("reminder_title"));
                 @SuppressLint("Range") String reminderDescription = cursor.getString(cursor.getColumnIndex("reminder_description"));
@@ -344,24 +313,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void spinner (){
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.filter_options, android.R.layout.simple_spinner_item);
 
-// Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-// Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-// Set a listener to handle spinner item selection
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Handle the selected item, for example, filter the RecyclerView based on the selection
                 String selectedOption = parentView.getItemAtPosition(position).toString();
-                // Add your logic to filter the RecyclerView based on the selected option
-                // You may need to update the data in the RecyclerView accordingly
 
                 if ("Completed".equals(selectedOption)) {
                     isOngoing = false;
@@ -377,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here if nothing is selected
+
             }
         });
     }

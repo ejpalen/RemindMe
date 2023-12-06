@@ -22,7 +22,6 @@ public class NotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("Notification", "onReceive called");
-        // Add your code to perform actions at midnight
         updateReminderStatus(context, intent);
     }
 
@@ -52,7 +51,6 @@ public class NotificationReceiver extends BroadcastReceiver {
             // Close the database
             if (db != null) {
                 db.close();
-//                Toast.makeText(context, "Notification is displayed", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -44,5 +44,4 @@ public class Reminder {
         return reminderStatus;
     }
 
-    // Getters and setters
 }

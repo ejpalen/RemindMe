@@ -24,7 +24,7 @@ import java.util.List;
 
 public class ReminderAdapter extends ArrayAdapter<Reminder> {
 
-    ImageView borderLine;  // Add ImageView reference for border_line
+    ImageView borderLine;
     Button btnComplete, btnEdit, btnDelete;
     SQLiteDatabase db;
     String reminderStatus;
@@ -86,10 +86,6 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
 
         Boolean btnClicked = reminder.isActionMenuVisible();
 
-
-        // User does not exist, proceed with inserting into the database and starting the login activity
-
-        // Set the initial visibility state based on the reminder's property
         if (reminder.isActionMenuVisible()) {
             borderLine.setVisibility(View.VISIBLE);
             btnsLinearLayout.setVisibility(View.VISIBLE);
@@ -97,8 +93,6 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
             borderLine.setVisibility(View.GONE);
             btnsLinearLayout.setVisibility(View.GONE);
         }
-
-
 
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,8 +165,6 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
             Toast.makeText(getContext(), "Error updating reminder status", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 }
 

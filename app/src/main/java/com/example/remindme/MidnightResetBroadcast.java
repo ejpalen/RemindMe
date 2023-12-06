@@ -54,7 +54,6 @@ public class MidnightResetBroadcast extends BroadcastReceiver {
             // Close the database
             if (db != null) {
                 db.close();
-//                Toast.makeText(context, "oks na bossing", Toast.LENGTH_SHORT).show();
             }
         }
     }
