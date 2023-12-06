@@ -22,7 +22,6 @@ public class EditReminder extends AppCompatActivity {
 
 
     Button backButton;
-
     FrameLayout backButtonFrame;
     EditText descriptionInput;
     EditText reminderInput;
@@ -51,8 +50,6 @@ public class EditReminder extends AppCompatActivity {
         Intent intent = getIntent();
         String reminderID = intent.getStringExtra("reminderID");
 
-
-
         SQLiteDatabase db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
 
         Cursor reminder_cursor = db.rawQuery("SELECT * FROM reminderTable WHERE reminder_id = '" + reminderID +"'", null);
@@ -72,14 +69,12 @@ public class EditReminder extends AppCompatActivity {
         reminderInput.setText(reminderTitle);
         descriptionInput.setText(reminderDescription);
 
-        // Parse the time from the database and format it
         String[] timeComponents = reminderTime.split(":");
         int hours = Integer.parseInt(timeComponents[0]);
         int minutes = Integer.parseInt(timeComponents[1]);
 
         selecttime.setText(String.format(Locale.getDefault(), "%02d:%02d", hours, minutes));
 
-        // Set click listener for the back button
         backButtonFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +94,6 @@ public class EditReminder extends AppCompatActivity {
             }
         });
 
-        // Set click listener for the submit button
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,15 +111,13 @@ public class EditReminder extends AppCompatActivity {
 
                     Toast.makeText(EditReminder.this, "Reminder has been edited", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(EditReminder.this,
-                            MainActivity.class);
+                    Intent intent = new Intent(EditReminder.this, MainActivity.class);
                     intent.putExtra("title", reminderInput.getText().toString());
                     intent.putExtra("description", descriptionInput.getText().toString());
                     intent.putExtra("hour", hour);
                     intent.putExtra("minute", minute);
                     startActivity(intent);
                     finish();
-
                 }
             }
         });

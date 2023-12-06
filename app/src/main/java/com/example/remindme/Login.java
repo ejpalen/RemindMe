@@ -57,17 +57,6 @@ public class Login extends AppCompatActivity {
                         db.execSQL("UPDATE nameTable SET user_status = 1 WHERE user_name = '" + enteredUsername + "'");
                         db.execSQL("UPDATE loggedInTable SET loggedIn_status = 1 WHERE id=1");
 
-//                        db.execSQL("UPDATE loggedInTable SET loggedIn_status = 1 WHERE id=1");
-//                        db.execSQL("UPDATE loggedInTable SET loggedIn_status = 1 WHERE '"+ db.execSQL("SELECT user_name FROM nameTable WHERE user_name = '"+ enteredUsername +"'"); +"'");
-//                        db.execSQL("SELECT user_name FROM nameTable WHERE user_name = '"+ enteredUsername +"'");
-
-//                        String selectQuery = "SELECT user_name FROM nameTable WHERE user_name = '" + enteredUsername + "'";
-//                        Cursor cursor = db.rawQuery(selectQuery, null);
-//                        if (cursor != null && cursor.moveToFirst()) {
-//                            db.execSQL("UPDATE nameTable SET user_status = 1 WHERE user_name = '" + enteredUsername + "'");
-//                            cursor.close();
-//                        }
-
                         Toast.makeText(Login.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
 
                         Intent HomeIntent = new Intent(Login.this, MainActivity.class);
@@ -95,7 +84,6 @@ public class Login extends AppCompatActivity {
         if (cursor != null) {
             cursor.close();
         }
-//        db.close();
 
         return isValid;
     }

@@ -19,7 +19,6 @@ import java.util.Locale;
 public class Add_Reminder extends AppCompatActivity {
 
     Button backButton;
-
     FrameLayout backButtonFrame;
     EditText descriptionInput;
     EditText reminderInput;
@@ -46,8 +45,6 @@ public class Add_Reminder extends AppCompatActivity {
         submitButton = findViewById(R.id.submitbtn);
 
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-
-        // Set click listener for the back button
         backButtonFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,8 +55,6 @@ public class Add_Reminder extends AppCompatActivity {
             }
         });
 
-
-
         selecttime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,12 +63,9 @@ public class Add_Reminder extends AppCompatActivity {
             }
         });
 
-        // Set click listener for the submit button
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Handle submit button click
-                // Add your logic here
 
                 if (reminderInput.getText().toString().isEmpty() || descriptionInput.getText().toString().isEmpty() || isSelectTimeClicked == false) {
                     Toast.makeText(Add_Reminder.this, "Please input title and description, and select time", Toast.LENGTH_SHORT).show();
@@ -82,8 +74,7 @@ public class Add_Reminder extends AppCompatActivity {
                     db.execSQL("INSERT INTO reminderTable(user_id, reminder_title, reminder_description, reminder_time) VALUES('" + userID + "', '" + reminderInput.getText().toString() + "', '" + descriptionInput.getText().toString() + "', '" + selecttime.getText().toString() + "')");
                     Toast.makeText(Add_Reminder.this, "New Reminder Created", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(Add_Reminder.this,
-                            MainActivity.class);
+                    Intent intent = new Intent(Add_Reminder.this, MainActivity.class);
 
                     intent.putExtra("title", reminderInput.getText().toString());
                     intent.putExtra("description", descriptionInput.getText().toString());
