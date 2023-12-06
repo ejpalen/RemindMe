@@ -47,22 +47,34 @@ public class Login extends AppCompatActivity {
 
                 if (enteredUsername.isEmpty() || enteredPassword.isEmpty()) {
                     Toast.makeText(Login.this, "Please enter both name and password", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     // Check the entered username and password in your database
                     boolean isValidUser = checkUserCredentials(enteredUsername, enteredPassword);
 
                     if (isValidUser) {
                         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
+                        db.execSQL("UPDATE nameTable SET user_status = 1 WHERE user_name = '" + enteredUsername + "'");
                         db.execSQL("UPDATE loggedInTable SET loggedIn_status = 1 WHERE id=1");
-                        db.execSQL("UPDATE nameTable SET user_status = 1 WHERE user_name = '"+ enteredUsername +"'");
+
+//                        db.execSQL("UPDATE loggedInTable SET loggedIn_status = 1 WHERE id=1");
+//                        db.execSQL("UPDATE loggedInTable SET loggedIn_status = 1 WHERE '"+ db.execSQL("SELECT user_name FROM nameTable WHERE user_name = '"+ enteredUsername +"'"); +"'");
+//                        db.execSQL("SELECT user_name FROM nameTable WHERE user_name = '"+ enteredUsername +"'");
+
+//                        String selectQuery = "SELECT user_name FROM nameTable WHERE user_name = '" + enteredUsername + "'";
+//                        Cursor cursor = db.rawQuery(selectQuery, null);
+//                        if (cursor != null && cursor.moveToFirst()) {
+//                            db.execSQL("UPDATE nameTable SET user_status = 1 WHERE user_name = '" + enteredUsername + "'");
+//                            cursor.close();
+//                        }
 
                         Toast.makeText(Login.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
 
                         Intent HomeIntent = new Intent(Login.this, MainActivity.class);
-                        //HomeIntent.putExtra("username", enteredUsername);
                         startActivity(HomeIntent);
-                        finish(); // Finish the current activity to prevent going back to the login screen using the back button
-                    } else {
+                        finish();
+                    }
+                    else {
                         Toast.makeText(Login.this, "Invalid name or password", Toast.LENGTH_SHORT).show();
                     }
                 }

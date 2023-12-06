@@ -155,9 +155,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        cursor = db.rawQuery("SELECT user_name FROM nameTable WHERE user_status = 1", null);
+        cursor = db.rawQuery("SELECT add_name FROM nameTable WHERE user_status = 1", null);
         if (cursor != null && cursor.moveToFirst()) {
-            int userNameIndex = cursor.getColumnIndex("user_name");
+            int userNameIndex = cursor.getColumnIndex("add_name");
             if (userNameIndex != -1) {
                 userNameDisplay = cursor.getString(userNameIndex);
                 cursor.close(); // Close the cursor when done
@@ -249,9 +249,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        // Unregister the receiver when the activity is destroyed
-        unregisterReceiver(midnightResetBroadcast);
-
+        if (midnightResetBroadcast != null) {
+            try {
+                unregisterReceiver(midnightResetBroadcast);
+            } catch (IllegalArgumentException e) {
+                // Receiver wasn't registered, ignore or handle the exception
+                e.printStackTrace();
+            }
+            midnightResetBroadcast = null;
+        }
         super.onDestroy();
     }
 
@@ -265,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
 
         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS nameTable (user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT, user_pass TEXT, user_status BOOLEAN not null default 0);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS nameTable (user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name TEXT, user_pass TEXT, add_name TEXT, user_status BOOLEAN not null default 0);");
         db.execSQL("CREATE TABLE IF NOT EXISTS loggedInTable (id INTEGER PRIMARY KEY, loggedIn_status BOOLEAN not null default 0);");
         db.execSQL("CREATE TABLE IF NOT EXISTS reminderTable (reminder_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id TEXT, reminder_title TEXT, reminder_description TEXT, reminder_time TIME, reminder_status BOOLEAN not null default 0);");
         db.execSQL("INSERT OR IGNORE INTO loggedInTable(id, loggedIn_status) VALUES(1,0);");
