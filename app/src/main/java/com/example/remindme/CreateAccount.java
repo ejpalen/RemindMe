@@ -58,16 +58,14 @@ public class CreateAccount extends AppCompatActivity {
                         Toast.makeText(CreateAccount.this, "Account already exists. Please choose a different username.", Toast.LENGTH_SHORT).show();
                     } else {
                         db = openOrCreateDatabase("UserDB", Context.MODE_PRIVATE, null);
-                        // User does not exist, proceed with inserting into the database and starting the login activity
                         db.execSQL("INSERT INTO nameTable(user_name, user_pass) VALUES('" + userName + "', '" + userPassword + "')");
-//                        db.execSQL("UPDATE nameTable SET user_status = 0 WHERE user_login = '"+ userName +"'");
-
-                        db.close();
+                        db.execSQL("UPDATE loggedInTable SET loggedIn_status = 1 WHERE id = 1");
+                        db.execSQL("UPDATE nameTable SET user_status = 1 WHERE user_name = '"+ userName +"'");
 
                         Toast.makeText(CreateAccount.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
 
-                        Intent loginIntent = new Intent(CreateAccount.this, Login.class);
-                        startActivity(loginIntent);
+                        Intent addNameIntent = new Intent(CreateAccount.this, Add_Name.class);
+                        startActivity(addNameIntent);
                         finish();
                     }
                 }
